@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Monta a topologia Mininet, inicia Ryu se necessário e executa o experimento."""
+#Monta a topologia Mininet, inicia Ryu se necessário e executa o experimento
 import argparse
 import os
 import re
@@ -14,6 +14,7 @@ from pathlib import Path
 from mininet.net import Mininet
 from mininet.node import RemoteController, OVSKernelSwitch
 from mininet.log import setLogLevel, info
+from mininet.cli import CLI
 
 
 BASE_DIR = Path(__file__).resolve().parent
@@ -205,91 +206,94 @@ def executar_experimento():
         net.build()
         net.start()
         desabilitar_ipv6(net)
+        
+        CLI(net)
 
-        info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\\n" %
-             args.discovery_wait)
-        time.sleep(max(1, args.discovery_wait))
-        info("*** Teste inicial de conectividade (pingAll)...\\n")
-        net.pingAll()
+        #info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\\n" %
+        #     args.discovery_wait)
+        #time.sleep(max(1, args.discovery_wait))
+        #info("*** Teste inicial de conectividade (pingAll)...\\n")
+        #net.pingAll()
+    
+        # info("*** Iniciando monitoramento de largura de banda: %s\\n" % bwm_log.name)
+        # bwm_file = bwm_log.open("w", encoding="utf-8")
+        # bwm_proc = subprocess.Popen(
+        #     ["bwm-ng", "-t", "1000", "-o", "csv", "-u", "bits", "-T", "rate", "-C", ","],
+        #     stdout=bwm_file, stderr=subprocess.STDOUT, start_new_session=True
+        # )
 
-        info("*** Iniciando monitoramento de largura de banda: %s\\n" % bwm_log.name)
-        bwm_file = bwm_log.open("w", encoding="utf-8")
-        bwm_proc = subprocess.Popen(
-            ["bwm-ng", "-t", "1000", "-o", "csv", "-u", "bits", "-T", "rate", "-C", ","],
-            stdout=bwm_file, stderr=subprocess.STDOUT, start_new_session=True
-        )
+        # info("*** Iniciando servidores Iperf nos hosts...\\n")
+        # for h in host_objs.values():
+        #     h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
+        # time.sleep(2)
 
-        info("*** Iniciando servidores Iperf nos hosts...\\n")
-        for h in host_objs.values():
-            h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
-        time.sleep(2)
+        # info("*** Disparando fluxos Iperf todos-para-todos (5 MB por par)...\\n")
+        # start_time = time.time()
+        # for src_name, src_host in host_objs.items():
+        #     for dst_name, dst_host in host_objs.items():
+        #         if src_name != dst_name:
+        #             src_host.cmd(
+        #                 "iperf -c %s -p 5001 -n 50M >/tmp/iperf-client-%s-%s.log 2>&1 &"
+        #                 % (dst_host.IP(), src_name, dst_name)
+        #             )
 
-        info("*** Disparando fluxos Iperf todos-para-todos (5 MB por par)...\\n")
-        start_time = time.time()
-        for src_name, src_host in host_objs.items():
-            for dst_name, dst_host in host_objs.items():
-                if src_name != dst_name:
-                    src_host.cmd(
-                        "iperf -c %s -p 5001 -n 5M >/tmp/iperf-client-%s-%s.log 2>&1 &"
-                        % (dst_host.IP(), src_name, dst_name)
-                    )
+        # if args.exp == 2:
+        #     info("*** [Exp 2] Aguardando 15 s antes de derrubar enlace...\\n")
+        #     time.sleep(15)
+        #     u_fail, v_fail = failure
+        #     info("*** [Exp 2] Derrubando enlace %s <-> %s\\n" % (u_fail, v_fail))
+        #     net.configLinkStatus(u_fail, v_fail, "down")
 
-        if args.exp == 2:
-            info("*** [Exp 2] Aguardando 15 s antes de derrubar enlace...\\n")
-            time.sleep(15)
-            u_fail, v_fail = failure
-            info("*** [Exp 2] Derrubando enlace %s <-> %s\\n" % (u_fail, v_fail))
-            net.configLinkStatus(u_fail, v_fail, "down")
+        # info("*** Aguardando finalização dos fluxos (limite de 300 s)...\\n")
+        # deadline = time.time() + 300
+        # while time.time() < deadline:
+        #     running = False
+        #     for h in host_objs.values():
+        #         if h.cmd("pgrep -f '[i]perf -c'").strip():
+        #             running = True
+        #             break
+        #     if not running:
+        #         break
+        #     time.sleep(1)
+        # else:
+        #     info("*** AVISO: limite de 300 s atingido; encerrando clientes Iperf restantes.\\n")
 
-        info("*** Aguardando finalização dos fluxos (limite de 300 s)...\\n")
-        deadline = time.time() + 300
-        while time.time() < deadline:
-            running = False
-            for h in host_objs.values():
-                if h.cmd("pgrep -f '[i]perf -c'").strip():
-                    running = True
-                    break
-            if not running:
-                break
-            time.sleep(1)
-        else:
-            info("*** AVISO: limite de 300 s atingido; encerrando clientes Iperf restantes.\\n")
+        # end_time = time.time()
+        # total_fct = end_time - start_time
+        # info("\\n===================================================\\n")
+        # info(" FCT TOTAL (%s): %.2f segundos\\n" % (log_prefix, total_fct))
+        # info("===================================================\\n\\n")
 
-        end_time = time.time()
-        total_fct = end_time - start_time
-        info("\\n===================================================\\n")
-        info(" FCT TOTAL (%s): %.2f segundos\\n" % (log_prefix, total_fct))
-        info("===================================================\\n\\n")
-
-        with fct_log.open("w", encoding="utf-8") as f:
-            f.write(
-                f"Topology: {args.topology}\\nRouting: {args.routing}\\n"
-                f"Exp: {args.exp}\\nFCT_Seconds: {total_fct:.4f}\\n"
-            )
-        info("*** Resultado FCT gravado em %s\\n" % fct_log)
+        # with fct_log.open("w", encoding="utf-8") as f:
+        #     f.write(
+        #         f"Topology: {args.topology}\\nRouting: {args.routing}\\n"
+        #         f"Exp: {args.exp}\\nFCT_Seconds: {total_fct:.4f}\\n"
+        #     )
+        # info("*** Resultado FCT gravado em %s\\n" % fct_log)
+    
     finally:
-        if net is not None:
-            info("*** Encerrando processos Iperf nos hosts e Mininet...\\n")
-            for h in net.hosts:
-                h.cmd("pkill -f '[i]perf' >/dev/null 2>&1 || true")
-            net.stop()
-        if bwm_proc is not None and bwm_proc.poll() is None:
-            bwm_proc.terminate()
-            try:
-                bwm_proc.wait(timeout=3)
-            except subprocess.TimeoutExpired:
-                bwm_proc.kill()
-        if ryu_proc is not None and ryu_proc.poll() is None:
-            info("*** Encerrando o Ryu iniciado por fctmain.py...\\n")
-            try:
-                os.killpg(ryu_proc.pid, signal.SIGTERM)
-                ryu_proc.wait(timeout=5)
-            except (ProcessLookupError, subprocess.TimeoutExpired):
-                try:
-                    os.killpg(ryu_proc.pid, signal.SIGKILL)
-                except ProcessLookupError:
-                    pass
-
+        print()
+        # if net is not None:
+        #     info("*** Encerrando processos Iperf nos hosts e Mininet...\\n")
+        #     for h in net.hosts:
+        #         h.cmd("pkill -f '[i]perf' >/dev/null 2>&1 || true")
+        #     net.stop()
+        # if bwm_proc is not None and bwm_proc.poll() is None:
+        #     bwm_proc.terminate()
+        #     try:
+        #         bwm_proc.wait(timeout=3)
+        #     except subprocess.TimeoutExpired:
+        #         bwm_proc.kill()
+        # if ryu_proc is not None and ryu_proc.poll() is None:
+        #     info("*** Encerrando o Ryu iniciado por fctmain.py...\\n")
+        #     try:
+        #         os.killpg(ryu_proc.pid, signal.SIGTERM)
+        #         ryu_proc.wait(timeout=5)
+        #     except (ProcessLookupError, subprocess.TimeoutExpired):
+        #         try:
+        #             os.killpg(ryu_proc.pid, signal.SIGKILL)
+        #         except ProcessLookupError:
+        #             pass
 
 if __name__ == "__main__":
     setLogLevel("info")
