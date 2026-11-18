@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-#Monta a topologia Mininet, inicia Ryu se necessário e executa o experimento
+# Monta a topologia Mininet, inicia Ryu se necessário, executa o experimento e plota o gráfico
 import argparse
 import os
 import re
@@ -10,6 +10,12 @@ import subprocess
 import sys
 import time
 from pathlib import Path
+
+import matplotlib
+matplotlib.use("Agg")  # Evita erros caso executado via terminal/SSH sem display gráfico
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
 
 from mininet.net import Mininet
 from mininet.node import RemoteController, OVSKernelSwitch
@@ -73,7 +79,7 @@ def carregar_topologia(arquivo_topo):
     ids = [int(s[1:]) for s in switches]
     if max(ids) > 254:
         raise ValueError("Esta implementação usa IPs 10.0.0.N; os IDs dos switches devem ser <= 254.")
-    # Elimina arestas duplicadas sem perder a ordem de entrada.
+    
     unique_edges = []
     seen = set()
     for u, v in edges:
@@ -94,7 +100,7 @@ def controller_reachable(ip, port):
 
 def iniciar_ryu_se_necessario(args):
     if controller_reachable(args.controller_ip, args.controller_port):
-        info("*** Controlador já responde em %s:%s; usando processo existente.\\n" %
+        info("*** Controlador já responde em %s:%s; usando processo existente.\n" %
              (args.controller_ip, args.controller_port))
         return None
 
@@ -115,17 +121,17 @@ def iniciar_ryu_se_necessario(args):
         "--ofp-tcp-listen-port", str(args.controller_port),
         str(RYU_APP)
     ]
-    info("*** Iniciando Ryu em segundo plano (modo=%s)...\\n" % args.routing)
+    info("*** Iniciando Ryu em segundo plano (modo=%s)...\n" % args.routing)
     proc = subprocess.Popen(
         command, cwd=str(BASE_DIR), env=env,
         stdout=log_file, stderr=subprocess.STDOUT,
         start_new_session=True
     )
-    # O processo mantém o descritor do log aberto.
+    
     deadline = time.time() + 15
     while time.time() < deadline:
         if controller_reachable(args.controller_ip, args.controller_port):
-            info("*** Ryu está aceitando conexões OpenFlow. Log: %s\\n" % RYU_LOG)
+            info("*** Ryu está aceitando conexões OpenFlow. Log: %s\n" % RYU_LOG)
             return proc
         if proc.poll() is not None:
             break
@@ -138,16 +144,66 @@ def iniciar_ryu_se_necessario(args):
     if proc.poll() is None:
         proc.terminate()
     raise RuntimeError(
-        "Ryu não iniciou corretamente. Verifique ryu.log.\\n" + "\\n".join(tail)
+        "Ryu não iniciou corretamente. Verifique ryu.log.\n" + "\n".join(tail)
     )
 
 
 def desabilitar_ipv6(net):
-    info("*** Desabilitando IPv6 nos hosts e switches...\\n")
+    info("*** Desabilitando IPv6 nos hosts e switches...\n")
     for node in net.switches + net.hosts:
         node.cmd("sysctl -w net.ipv6.conf.all.disable_ipv6=1")
         node.cmd("sysctl -w net.ipv6.conf.default.disable_ipv6=1")
         node.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
+
+
+def gerar_grafico_vazao(csv_path, output_path, args):
+    info("*** Processando dados e gerando gráfico de vazão...\n")
+    if not csv_path.is_file() or csv_path.stat().st_size == 0:
+        info("*** AVISO: Arquivo %s vazio ou inexistente; gráfico não gerado.\n" % csv_path.name)
+        return
+
+    # 1. Carregar o arquivo CSV (sem cabeçalho)
+    df = pd.read_csv(csv_path, header=None)
+
+    # 2. Filtrar apenas interfaces de switches (que começam com 's')
+    df_switches = df[df[1].astype(str).str.startswith('s', na=False)].copy()
+    if df_switches.empty:
+        info("*** AVISO: Nenhuma interface de switch encontrada no CSV.\n")
+        return
+
+    # 3. Extrair o nome do switch (ex: 's1-eth1' -> 's1')
+    df_switches['switch'] = df_switches[1].apply(lambda x: str(x).split('-')[0])
+
+    # 4. Normalizar o tempo para começar em t = 0
+    t0 = df_switches[0].min()
+    df_switches['tempo_relativo'] = df_switches[0] - t0
+
+    # 5. Converter a coluna de bytes/bits para Mbps (coluna 2 do bwm-ng)
+    df_switches['vazao_mbps'] = (pd.to_numeric(df_switches[2], errors='coerce') * 8) / 1e6
+
+    # 6. Agrupar o tempo em intervalos (bins de 0.1 segundos)
+    df_switches['tempo_bin'] = np.round(df_switches['tempo_relativo'] / 0.1) * 0.1
+
+    # 7. Agrupar por tempo binned e switch, somando as interfaces e preenchendo vazios com 0
+    df_grouped = df_switches.groupby(['tempo_bin', 'switch'])['vazao_mbps'].sum().unstack().fillna(0)
+
+    # 8. Plotar o gráfico "Vazão vs. Tempo" com todos os switches no mesmo gráfico
+    plt.figure(figsize=(12, 6))
+    for switch_name in sorted(df_grouped.columns, key=lambda s: int(s[1:]) if s[1:].isdigit() else s):
+        plt.plot(df_grouped.index, df_grouped[switch_name], label=switch_name, linewidth=2)
+
+    titulo = f"Vazão vs. Tempo - {args.topology.upper()} ({args.routing.upper()} E{args.exp})"
+    plt.title(titulo)
+    plt.xlabel('Tempo (segundos)')
+    plt.ylabel('Vazão Total (Mbps)')
+    plt.grid(True, linestyle='--', alpha=0.7)
+    plt.legend(title='Switches', bbox_to_anchor=(1.05, 1), loc='upper left')
+    plt.tight_layout()
+
+    # 9. Salvar como imagem PNG
+    plt.savefig(output_path, dpi=300)
+    plt.close()
+    info("*** Gráfico gerado com sucesso e salvo em: %s\n" % output_path)
 
 
 def executar_experimento():
@@ -157,6 +213,7 @@ def executar_experimento():
     log_prefix = f"{args.topology}_{args.routing}_exp{args.exp}"
     bwm_log = BASE_DIR / f"bwm_{log_prefix}.csv"
     fct_log = BASE_DIR / f"fct_{log_prefix}.txt"
+    plot_png = BASE_DIR / f"vazao_{log_prefix}.png"
 
     if args.exp == 2:
         failure = ("s4", "s5") if args.topology == "torus" else ("s1", "s3")
@@ -167,15 +224,18 @@ def executar_experimento():
                 "mas ele não foi encontrado. Ajuste o arquivo ou o enlace de falha no script."
             )
 
-    info("\\n===================================================\\n")
-    info(" Topologia=%s | Roteamento=%s | Experimento=%s\\n" %
+    info("\n===================================================\n")
+    info(" Topologia=%s | Roteamento=%s | Experimento=%s\n" %
          (args.topology, args.routing, args.exp))
-    info(" Switches: %s\\n Enlaces: %d\\n" % (", ".join(sw_names), len(edges)))
-    info("===================================================\\n\\n")
+    info(" Switches: %s\n Enlaces: %d\n" % (", ".join(sw_names), len(edges)))
+    info("===================================================\n\n")
 
     ryu_proc = None
     net = None
     bwm_proc = None
+    bwm_file = None
+    experimento_concluido = False
+
     try:
         ryu_proc = iniciar_ryu_se_necessario(args)
 
@@ -202,32 +262,32 @@ def executar_experimento():
         for u, v in edges:
             net.addLink(sw_objs[u], sw_objs[v])
 
-        info("*** Iniciando Mininet e conectando switches ao Ryu...\\n")
+        info("*** Iniciando Mininet e conectando switches ao Ryu...\n")
         net.build()
         net.start()
         desabilitar_ipv6(net)
         
-        CLI(net)
+        #CLI(net)
 
-        info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\\n" %
+        info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\n" %
             args.discovery_wait)
         time.sleep(max(1, args.discovery_wait))
-        info("*** Teste inicial de conectividade (pingAll)...\\n")
+        info("*** Teste inicial de conectividade (pingAll)...\n")
         net.pingAll()
     
-        info("*** Iniciando monitoramento de largura de banda: %s\\n" % bwm_log.name)
+        info("*** Iniciando monitoramento de largura de banda: %s\n" % bwm_log.name)
         bwm_file = bwm_log.open("w", encoding="utf-8")
         bwm_proc = subprocess.Popen(
             ["bwm-ng", "-t", "1000", "-o", "csv", "-u", "bits", "-T", "rate", "-C", ","],
             stdout=bwm_file, stderr=subprocess.STDOUT, start_new_session=True
         )
 
-        info("*** Iniciando servidores Iperf nos hosts...\\n")
+        info("*** Iniciando servidores Iperf nos hosts...\n")
         for h in host_objs.values():
             h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
         time.sleep(2)
 
-        info("*** Disparando fluxos Iperf todos-para-todos (5 MB por par)...\\n")
+        info("*** Disparando fluxos Iperf todos-para-todos (5 MB por par)...\n")
         start_time = time.time()
         for src_name, src_host in host_objs.items():
             for dst_name, dst_host in host_objs.items():
@@ -238,13 +298,13 @@ def executar_experimento():
                     )
 
         if args.exp == 2:
-            info("*** [Exp 2] Aguardando 15 s antes de derrubar enlace...\\n")
+            info("*** [Exp 2] Aguardando 15 s antes de derrubar enlace...\n")
             time.sleep(15)
             u_fail, v_fail = failure
-            info("*** [Exp 2] Derrubando enlace %s <-> %s\\n" % (u_fail, v_fail))
+            info("*** [Exp 2] Derrubando enlace %s <-> %s\n" % (u_fail, v_fail))
             net.configLinkStatus(u_fail, v_fail, "down")
 
-        info("*** Aguardando finalização dos fluxos (limite de 300 s)...\\n")
+        info("*** Aguardando finalização dos fluxos (limite de 300 s)...\n")
         deadline = time.time() + 300
         while time.time() < deadline:
             running = False
@@ -256,25 +316,26 @@ def executar_experimento():
                 break
             time.sleep(1)
         else:
-            info("*** AVISO: limite de 300 s atingido; encerrando clientes Iperf restantes.\\n")
+            info("*** AVISO: limite de 300 s atingido; encerrando clientes Iperf restantes.\n")
 
         end_time = time.time()
         total_fct = end_time - start_time
-        info("\\n===================================================\\n")
-        info(" FCT TOTAL (%s): %.2f segundos\\n" % (log_prefix, total_fct))
-        info("===================================================\\n\\n")
+        info("\n===================================================\n")
+        info(" FCT TOTAL (%s): %.2f segundos\n" % (log_prefix, total_fct))
+        info("===================================================\n\n")
 
         with fct_log.open("w", encoding="utf-8") as f:
             f.write(
-                f"Topology: {args.topology}\\nRouting: {args.routing}\\n"
-                f"Exp: {args.exp}\\nFCT_Seconds: {total_fct:.4f}\\n"
+                f"Topology: {args.topology}\nRouting: {args.routing}\n"
+                f"Exp: {args.exp}\nFCT_Seconds: {total_fct:.4f}\n"
             )
-        info("*** Resultado FCT gravado em %s\\n" % fct_log)
+        info("*** Resultado FCT gravado em %s\n" % fct_log)
+        experimento_concluido = True
     
     finally:
         print()
         if net is not None:
-            info("*** Encerrando processos Iperf nos hosts e Mininet...\\n")
+            info("*** Encerrando processos Iperf nos hosts e Mininet...\n")
             for h in net.hosts:
                 h.cmd("pkill -f '[i]perf' >/dev/null 2>&1 || true")
             net.stop()
@@ -284,8 +345,11 @@ def executar_experimento():
                 bwm_proc.wait(timeout=3)
             except subprocess.TimeoutExpired:
                 bwm_proc.kill()
+        if bwm_file is not None and not bwm_file.closed:
+            bwm_file.flush()
+            bwm_file.close()
         if ryu_proc is not None and ryu_proc.poll() is None:
-            info("*** Encerrando o Ryu iniciado por fctmain.py...\\n")
+            info("*** Encerrando o Ryu iniciado por fctmain.py...\n")
             try:
                 os.killpg(ryu_proc.pid, signal.SIGTERM)
                 ryu_proc.wait(timeout=5)
@@ -294,6 +358,10 @@ def executar_experimento():
                     os.killpg(ryu_proc.pid, signal.SIGKILL)
                 except ProcessLookupError:
                     pass
+
+        if experimento_concluido:
+            gerar_grafico_vazao(bwm_log, plot_png, args)
+
 
 if __name__ == "__main__":
     setLogLevel("info")
