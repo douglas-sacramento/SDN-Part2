@@ -297,13 +297,13 @@ def executar_experimento():
                     #    % (dst_host.IP(), src_name, dst_name)
                     #)
                     src_host.cmd(
-                        "iperf -c %s -p 5001 -n 500M >/tmp/iperf-client-%s-%s.log 2>&1 &"
+                        "iperf -c %s -p 5001 -n 300M -b 100M >/tmp/iperf-client-%s-%s.log 2>&1 &"
                         % (dst_host.IP(), src_name, dst_name)
                     )
 
         if args.exp == 2:
-            info("*** [Exp 2] Aguardando 15 s antes de derrubar enlace...\n")
-            time.sleep(15)
+            info("*** [Exp 2] Aguardando 5 s antes de derrubar enlace...\n")
+            time.sleep(5)
             u_fail, v_fail = failure
             info("*** [Exp 2] Derrubando enlace %s <-> %s\n" % (u_fail, v_fail))
             net.configLinkStatus(u_fail, v_fail, "down")
