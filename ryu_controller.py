@@ -50,15 +50,9 @@ class TopoDiscover(app_manager.RyuApp):
     # Conexão dos switches e regra table-miss
     # ---------------------------------------------------------
 
-    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
-    def switch_features_handler(self, ev):
-        dp = ev.msg.datapath
-        self.switches[dp.id] = dp
-
+    def _install_table_miss(self, dp):
         ofp = dp.ofproto
         parser = dp.ofproto_parser
-
-        # Regra Table-Miss: Envia pacotes não casados para o controlador
         match = parser.OFPMatch()
         actions = [
             parser.OFPActionOutput(
@@ -66,8 +60,14 @@ class TopoDiscover(app_manager.RyuApp):
                 ofp.OFPCML_NO_BUFFER
             )
         ]
-
         self._add_flow(dp, 0, match, actions)
+
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        dp = ev.msg.datapath
+        self.switches[dp.id] = dp
+
+        self._install_table_miss(dp)
 
         self.logger.info(
             "Switch conectado: s%s; table-miss instalado", dp.id
@@ -88,10 +88,6 @@ class TopoDiscover(app_manager.RyuApp):
 
     @set_ev_cls(event.EventLinkAdd)
     def link_add_handler(self, ev):
-        self._refresh_topology()
-
-    @set_ev_cls(event.EventLinkDelete)
-    def link_delete_handler(self, ev):
         self._refresh_topology()
 
     def _refresh_topology(self):
@@ -191,6 +187,22 @@ class TopoDiscover(app_manager.RyuApp):
             kwargs["buffer_id"] = buffer_id
 
         dp.send_msg(parser.OFPFlowMod(**kwargs))
+
+    def _clear_all_flows_and_restore_table_miss(self):
+        """Limpa fluxos unicast em todos os switches e garante a regra table-miss (priority=0)."""
+        for sw_dp in list(self.switches.values()):
+            ofp = sw_dp.ofproto
+            parser = sw_dp.ofproto_parser
+            flow_mod = parser.OFPFlowMod(
+                datapath=sw_dp,
+                table_id=ofp.OFPTT_ALL,
+                command=ofp.OFPFC_DELETE,
+                out_port=ofp.OFPP_ANY,
+                out_group=ofp.OFPG_ANY,
+                match=parser.OFPMatch(),
+            )
+            sw_dp.send_msg(flow_mod)
+            self._install_table_miss(sw_dp)
 
     # ---------------------------------------------------------
     # Aprendizado de Hosts
@@ -362,51 +374,48 @@ class TopoDiscover(app_manager.RyuApp):
         )
 
         dp.send_msg(out)
-        
-    # ---------------------------------------------------------
-    # Tratamento de Falhas (Item 2 do PDF)
-    # ---------------------------------------------------------
 
-# ---------------------------------------------------------
+    # ---------------------------------------------------------
     # Tratamento Dinâmico de Falhas (Item 4 da Lista / Item 2 do PDF)
     # ---------------------------------------------------------
+
+    @set_ev_cls(event.EventLinkDelete)
+    def link_delete_handler(self, ev):
+        src = ev.link.src
+        dst = ev.link.dst
+        self.logger.warning(
+            "EventLinkDelete: enlace s%s (porta %s) -> s%s (porta %s) removido",
+            src.dpid, src.port_no, dst.dpid, dst.port_no
+        )
+        if self.net.has_edge(src.dpid, dst.dpid):
+            self.net.remove_edge(src.dpid, dst.dpid)
+        self._clear_all_flows_and_restore_table_miss()
 
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def port_status_handler(self, ev):
         msg = ev.msg
         dp = msg.datapath
         ofp = dp.ofproto
-        parser = dp.ofproto_parser
         port_no = msg.desc.port_no
 
-        # Verifica se a porta foi modificada ou deletada e se o link caiu (OFPPS_LINK_DOWN)
         if msg.reason in (ofp.OFPPR_DELETE, ofp.OFPPR_MODIFY):
             if msg.desc.state & ofp.OFPPS_LINK_DOWN:
                 self.logger.warning(
                     "FALHA DETECTADA: Switch s%s - Porta %s caiu (Link Down)!",
                     dp.id, port_no
                 )
-                
-                # 1. Atualiza imediatamente o grafo e a topologia interna
-                self._refresh_topology()
-                
-                # 2. Envia o comando OFPFC_DELETE para limpar as regras de roteamento antigas
-                # Remove os fluxos instalados com prioridade 20 (nossos fluxos unicast)
-                match = parser.OFPMatch()
-                instructions = []
-                
-                flow_mod = parser.OFPFlowMod(
-                    datapath=dp,
-                    command=ofp.OFPFC_DELETE,
-                    out_port=ofp.OFPP_ANY,
-                    out_group=ofp.OFPG_ANY,
-                    priority=20,
-                    match=match,
-                    instructions=instructions
-                )
-                dp.send_msg(flow_mod)
-                
+
+                # Remove imediatamente do grafo as duas direções do enlace associado à porta caída
+                for u, v, data in list(self.net.edges(data=True)):
+                    if u == dp.id and data.get("port") == port_no:
+                        self.net.remove_edge(u, v)
+                        if self.net.has_edge(v, u):
+                            self.net.remove_edge(v, u)
+
+                # Limpa as regras em todos os switches e reinstala o table-miss (priority=0)
+                self._clear_all_flows_and_restore_table_miss()
+
                 self.logger.info(
-                    "Regras de fluxo antigas removidas via OFPFC_DELETE no switch s%s. A rede recalculará as rotas no próximo pacote.",
-                    dp.id
+                    "Regras antigas removidas em todos os switches e table-miss restaurado; "
+                    "tráfego será recalculado automaticamente."
                 )
