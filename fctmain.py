@@ -19,6 +19,7 @@ import pandas as pd
 
 from mininet.net import Mininet
 from mininet.node import RemoteController, OVSKernelSwitch
+from mininet.link import TCLink
 from mininet.log import setLogLevel, info
 from mininet.cli import CLI
 
@@ -174,20 +175,29 @@ def gerar_grafico_vazao(csv_path, output_path, args):
     # 3. Extrair o nome do switch (ex: 's1-eth1' -> 's1')
     df_switches['switch'] = df_switches[1].apply(lambda x: str(x).split('-')[0])
 
-    # 4. Normalizar o tempo para começar em t = 0
+    # 4. Converter coluna 2 (já está em bits/s por causa de '-u bits') para Mbps
+    df_switches['vazao_mbps'] = pd.to_numeric(df_switches[2], errors='coerce') / 1e6
+
+    # 5. Remover lixo de estouro de contador 64-bit (2^64) e valores negativos
+    df_switches = df_switches[
+        (df_switches['vazao_mbps'] >= 0) & (df_switches['vazao_mbps'] < 100000)
+    ].copy()
+
+    if df_switches.empty:
+        info("*** AVISO: Nenhuma amostra válida restou após filtragem.\n")
+        return
+
+    # 6. Normalizar o tempo para começar em t = 0
     t0 = df_switches[0].min()
     df_switches['tempo_relativo'] = df_switches[0] - t0
 
-    # 5. Converter a coluna de bytes/bits para Mbps (coluna 2 do bwm-ng)
-    df_switches['vazao_mbps'] = (pd.to_numeric(df_switches[2], errors='coerce') * 8) / 1e6
+    # 7. Alinhar bins com a taxa de amostragem de 1.0s do bwm-ng (-t 1000)
+    df_switches['tempo_bin'] = np.round(df_switches['tempo_relativo'])
 
-    # 6. Agrupar o tempo em intervalos (bins de 0.1 segundos)
-    df_switches['tempo_bin'] = np.round(df_switches['tempo_relativo'] / 0.1) * 0.1
-
-    # 7. Agrupar por tempo binned e switch, somando as interfaces e preenchendo vazios com 0
+    # 8. Agrupar por tempo binned e switch, somando as interfaces e preenchendo vazios com 0
     df_grouped = df_switches.groupby(['tempo_bin', 'switch'])['vazao_mbps'].sum().unstack().fillna(0)
 
-    # 8. Plotar o gráfico "Vazão vs. Tempo" com todos os switches no mesmo gráfico
+    # 9. Plotar o gráfico "Vazão vs. Tempo" com todos os switches no mesmo gráfico
     plt.figure(figsize=(12, 6))
     for switch_name in sorted(df_grouped.columns, key=lambda s: int(s[1:]) if s[1:].isdigit() else s):
         plt.plot(df_grouped.index, df_grouped[switch_name], label=switch_name, linewidth=2)
@@ -200,7 +210,7 @@ def gerar_grafico_vazao(csv_path, output_path, args):
     plt.legend(title='Switches', bbox_to_anchor=(1.05, 1), loc='upper left')
     plt.tight_layout()
 
-    # 9. Salvar como imagem PNG
+    # 10. Salvar como imagem PNG
     plt.savefig(output_path, dpi=300)
     plt.close()
     info("*** Gráfico gerado com sucesso e salvo em: %s\n" % output_path)
@@ -257,10 +267,10 @@ def executar_experimento():
                 mac=f"00:00:00:00:00:{h_id:02x}"
             )
             host_objs[host.name] = host
-            net.addLink(host, sw_objs[s])
+            net.addLink(host, sw_objs[s], cls=TCLink, bw=100)
 
         for u, v in edges:
-            net.addLink(sw_objs[u], sw_objs[v])
+            net.addLink(sw_objs[u], sw_objs[v], cls=TCLink, bw=100)
 
         info("*** Iniciando Mininet e conectando switches ao Ryu...\n")
         net.build()
@@ -287,17 +297,13 @@ def executar_experimento():
             h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
         time.sleep(2)
 
-        info("*** Disparando fluxos Iperf todos-para-todos (5 MB por par)...\n")
+        info("*** Disparando fluxos Iperf todos-para-todos (250 MB por par a 100 Mbps)...\n")
         start_time = time.time()
         for src_name, src_host in host_objs.items():
             for dst_name, dst_host in host_objs.items():
                 if src_name != dst_name:
-                    #src_host.cmd(
-                    #    "iperf -c %s -p 5001 -t 30 >/tmp/iperf-client-%s-%s.log 2>&1 &"
-                    #    % (dst_host.IP(), src_name, dst_name)
-                    #)
                     src_host.cmd(
-                        "iperf -c %s -p 5001 -n 300M -b 100M >/tmp/iperf-client-%s-%s.log 2>&1 &"
+                        "iperf -c %s -p 5001 -n 250M >/tmp/iperf-client-%s-%s.log 2>&1 &"
                         % (dst_host.IP(), src_name, dst_name)
                     )
 
@@ -311,12 +317,8 @@ def executar_experimento():
         info("*** Aguardando finalização dos fluxos (limite de 300 s)...\n")
         deadline = time.time() + 300
         while time.time() < deadline:
-            running = False
-            for h in host_objs.values():
-                if h.cmd("pgrep -f '[i]perf -c'").strip():
-                    running = True
-                    break
-            if not running:
+            res = subprocess.run(["pgrep", "-f", "[i]perf -c"], stdout=subprocess.DEVNULL)
+            if res.returncode != 0:
                 break
             time.sleep(1)
         else:
