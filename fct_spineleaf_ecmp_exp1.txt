@@ -1,4 +1,4 @@
 Topology: spineleaf
 Routing: ecmp
 Exp: 1
-FCT_Seconds: 31.3864
+FCT_Seconds: 29.5139
