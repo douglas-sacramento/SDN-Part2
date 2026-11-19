@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Monta a topologia Mininet, inicia Ryu se necessário e executa o experimento
+# Monta a topologia Mininet, inicia Ryu e executa o experimento
 import argparse
 import os
 import re
@@ -79,7 +79,6 @@ def carregar_topologia(arquivo_topo):
     ids = [int(s[1:]) for s in switches]
     if max(ids) > 254:
         raise ValueError("Esta implementação usa IPs 10.0.0.N; os IDs dos switches devem ser <= 254.")
-    # Elimina arestas duplicadas sem perder a ordem de entrada.
     unique_edges = []
     seen = set()
     for u, v in edges:
@@ -98,40 +97,46 @@ def controller_reachable(ip, port):
         return False
 
 
-def iniciar_ryu_se_necessario(args):
+def encerrar_ryu_existente():
+    """Garante que nenhum ryu-manager antigo fique preso na porta OpenFlow com protocolo/código anterior."""
+    subprocess.run(["pkill", "-9", "-f", "ryu-manager"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+    time.sleep(0.5)
+
+
+def iniciar_ryu_limpo(args):
     if controller_reachable(args.controller_ip, args.controller_port):
-        info("*** Controlador já responde em %s:%s; usando processo existente.\n" %
-             (args.controller_ip, args.controller_port))
-        return None
+        info("*** Encerrando instância antiga do Ryu na porta %s para aplicar modo=%s...\n" %
+             (args.controller_port, args.routing))
+        encerrar_ryu_existente()
 
     ryu_manager = shutil.which("ryu-manager")
     if not ryu_manager:
         raise RuntimeError(
-            "Não encontrei 'ryu-manager' no PATH. Instale o Ryu ou inicie o controlador "
-            "manualmente antes de executar fctmain.py."
+            "Não encontrei 'ryu-manager' no PATH. Instale o Ryu antes de executar fctmain.py."
         )
     if not RYU_APP.is_file():
         raise FileNotFoundError(f"Aplicação Ryu não encontrada: {RYU_APP}")
 
     env = os.environ.copy()
     env["SDN_ROUTING"] = args.routing
-    log_file = RYU_LOG.open("a", encoding="utf-8")
+    # Sobrescreve o ryu.log a cada experimento para não misturar logs antigos
+    log_file = RYU_LOG.open("w", encoding="utf-8")
     command = [
         ryu_manager, "--observe-links",
         "--ofp-tcp-listen-port", str(args.controller_port),
         str(RYU_APP)
     ]
-    info("*** Iniciando Ryu em segundo plano (modo=%s)...\n" % args.routing)
+    info("*** Iniciando Ryu (%s) em segundo plano (modo=%s)...\n" % (RYU_APP, args.routing))
     proc = subprocess.Popen(
         command, cwd=str(BASE_DIR), env=env,
         stdout=log_file, stderr=subprocess.STDOUT,
         start_new_session=True
     )
-    # O processo mantém o descritor do log aberto.
+
     deadline = time.time() + 15
     while time.time() < deadline:
         if controller_reachable(args.controller_ip, args.controller_port):
-            info("*** Ryu está aceitando conexões OpenFlow. Log: %s\n" % RYU_LOG)
+            info("*** Ryu aceitando conexões OpenFlow. Log: %s\n" % RYU_LOG)
             return proc
         if proc.poll() is not None:
             break
@@ -161,38 +166,26 @@ def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
         info("*** AVISO: Arquivo CSV de banda vazio ou inexistente; gráfico não gerado.\n")
         return
 
-    # 1. Carregar o arquivo CSV (sem cabeçalho)
     df = pd.read_csv(bwm_csv_path, header=None)
-
-    # 2. Filtrar apenas interfaces de switches (que começam com 's')
     df_switches = df[df[1].astype(str).str.startswith("s", na=False)].copy()
     if df_switches.empty:
         info("*** AVISO: Nenhuma interface de switch encontrada no CSV; gráfico não gerado.\n")
         return
 
-    # 3. Extrair o nome do switch (ex: 's1-eth1' -> 's1')
     df_switches["switch"] = df_switches[1].apply(lambda x: x.split("-")[0])
 
-    # 4. Normalizar o tempo para começar em t = 0
     df_switches[0] = pd.to_numeric(df_switches[0], errors="coerce")
     df_switches = df_switches.dropna(subset=[0])
     t0 = df_switches[0].min()
     df_switches["tempo_relativo"] = df_switches[0] - t0
 
-    # 5. Converter para Mbps (bwm-ng iniciado com -u bits já registra bits/s na coluna 2)
     df_switches["vazao_mbps"] = pd.to_numeric(df_switches[2], errors="coerce") / 1e6
-
-    # 6. Agrupar o tempo em intervalos (bins de 0.1 segundos) para alinhar as amostras de todos os switches
     df_switches["tempo_bin"] = np.round(df_switches["tempo_relativo"] / 0.1) * 0.1
 
-    # 7. Agrupar por tempo binned e switch, somando as interfaces e preenchendo vazios com 0
     df_grouped = df_switches.groupby(["tempo_bin", "switch"])["vazao_mbps"].sum().unstack().fillna(0)
-
-    # Ordena as colunas numericamente (s1, s2, ..., s10)
     sorted_cols = sorted(df_grouped.columns, key=lambda s: int(s[1:]) if s[1:].isdigit() else s)
     df_grouped = df_grouped[sorted_cols]
 
-    # 8. Plotar o gráfico "Vazão vs. Tempo" com todos os switches no mesmo gráfico
     plt.figure(figsize=(12, 6))
     for switch_name in df_grouped.columns:
         plt.plot(df_grouped.index, df_grouped[switch_name], label=switch_name, linewidth=2)
@@ -204,7 +197,6 @@ def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
     plt.legend(title="Switches", bbox_to_anchor=(1.05, 1), loc="upper left")
     plt.tight_layout()
 
-    # 9. Salvar como imagem PNG
     plt.savefig(output_png_path, dpi=300)
     plt.close()
     info("*** Gráfico gerado com sucesso e salvo como '%s'!\n" % output_png_path)
@@ -239,7 +231,7 @@ def executar_experimento():
     bwm_proc = None
     bwm_file = None
     try:
-        ryu_proc = iniciar_ryu_se_necessario(args)
+        ryu_proc = iniciar_ryu_limpo(args)
 
         net = Mininet(controller=None, switch=OVSKernelSwitch, autoSetMacs=False, build=False)
         net.addController(
@@ -268,8 +260,6 @@ def executar_experimento():
         net.build()
         net.start()
         desabilitar_ipv6(net)
-
-        # CLI(net)
 
         info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\n" %
              args.discovery_wait)
@@ -325,7 +315,7 @@ def executar_experimento():
             u_fail, v_fail = failure
             info("*** [Exp 2] Derrubando enlace %s <-> %s\n" % (u_fail, v_fail))
             net.configLinkStatus(u_fail, v_fail, "down")
-            time.sleep(1)
+            time.sleep(2)
 
         # 3. Segunda transferência de 200 MB por par
         disparar_e_aguardar_iperf(rodada=2, tamanho="200M")
@@ -370,7 +360,6 @@ def executar_experimento():
                 except ProcessLookupError:
                     pass
 
-    # Gera o gráfico após fechar o CSV do bwm-ng
     gerar_grafico_vazao(bwm_log, plot_png, args.topology, args.routing, args.exp)
 
 
