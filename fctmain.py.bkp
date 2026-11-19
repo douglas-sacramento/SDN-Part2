@@ -207,7 +207,7 @@ def executar_experimento():
         net.start()
         desabilitar_ipv6(net)
         
-        CLI(net)
+        #CLI(net)
 
         info("*** Aguardando %s s para descoberta LLDP/topologia no Ryu...\\n" %
             args.discovery_wait)
