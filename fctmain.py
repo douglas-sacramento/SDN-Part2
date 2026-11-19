@@ -11,6 +11,12 @@ import sys
 import time
 from pathlib import Path
 
+import matplotlib
+matplotlib.use("Agg")
+import matplotlib.pyplot as plt
+import numpy as np
+import pandas as pd
+
 from mininet.net import Mininet
 from mininet.node import RemoteController, OVSKernelSwitch
 from mininet.log import setLogLevel, info
@@ -150,6 +156,60 @@ def desabilitar_ipv6(net):
         node.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 
 
+def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
+    if not bwm_csv_path.is_file() or bwm_csv_path.stat().st_size == 0:
+        info("*** AVISO: Arquivo CSV de banda vazio ou inexistente; gráfico não gerado.\n")
+        return
+
+    # 1. Carregar o arquivo CSV (sem cabeçalho)
+    df = pd.read_csv(bwm_csv_path, header=None)
+
+    # 2. Filtrar apenas interfaces de switches (que começam com 's')
+    df_switches = df[df[1].astype(str).str.startswith("s", na=False)].copy()
+    if df_switches.empty:
+        info("*** AVISO: Nenhuma interface de switch encontrada no CSV; gráfico não gerado.\n")
+        return
+
+    # 3. Extrair o nome do switch (ex: 's1-eth1' -> 's1')
+    df_switches["switch"] = df_switches[1].apply(lambda x: x.split("-")[0])
+
+    # 4. Normalizar o tempo para começar em t = 0
+    df_switches[0] = pd.to_numeric(df_switches[0], errors="coerce")
+    df_switches = df_switches.dropna(subset=[0])
+    t0 = df_switches[0].min()
+    df_switches["tempo_relativo"] = df_switches[0] - t0
+
+    # 5. Converter para Mbps (bwm-ng iniciado com -u bits já registra bits/s na coluna 2)
+    df_switches["vazao_mbps"] = pd.to_numeric(df_switches[2], errors="coerce") / 1e6
+
+    # 6. Agrupar o tempo em intervalos (bins de 0.1 segundos) para alinhar as amostras de todos os switches
+    df_switches["tempo_bin"] = np.round(df_switches["tempo_relativo"] / 0.1) * 0.1
+
+    # 7. Agrupar por tempo binned e switch, somando as interfaces e preenchendo vazios com 0
+    df_grouped = df_switches.groupby(["tempo_bin", "switch"])["vazao_mbps"].sum().unstack().fillna(0)
+
+    # Ordena as colunas numericamente (s1, s2, ..., s10)
+    sorted_cols = sorted(df_grouped.columns, key=lambda s: int(s[1:]) if s[1:].isdigit() else s)
+    df_grouped = df_grouped[sorted_cols]
+
+    # 8. Plotar o gráfico "Vazão vs. Tempo" com todos os switches no mesmo gráfico
+    plt.figure(figsize=(12, 6))
+    for switch_name in df_grouped.columns:
+        plt.plot(df_grouped.index, df_grouped[switch_name], label=switch_name, linewidth=2)
+
+    plt.title(f"Vazão vs. Tempo - Distribuição de Carga por Switch ({topology.upper()} - {routing.upper()} E{exp})")
+    plt.xlabel("Tempo (segundos)")
+    plt.ylabel("Vazão Total (Mbps)")
+    plt.grid(True, linestyle="--", alpha=0.7)
+    plt.legend(title="Switches", bbox_to_anchor=(1.05, 1), loc="upper left")
+    plt.tight_layout()
+
+    # 9. Salvar como imagem PNG
+    plt.savefig(output_png_path, dpi=300)
+    plt.close()
+    info("*** Gráfico gerado com sucesso e salvo como '%s'!\n" % output_png_path)
+
+
 def executar_experimento():
     args = parse_args()
     topo_file = BASE_DIR / ("torus.txt" if args.topology == "torus" else "spineleaf.txt")
@@ -157,6 +217,7 @@ def executar_experimento():
     log_prefix = f"{args.topology}_{args.routing}_exp{args.exp}"
     bwm_log = BASE_DIR / f"bwm_{log_prefix}.csv"
     fct_log = BASE_DIR / f"fct_{log_prefix}.txt"
+    plot_png = BASE_DIR / f"vazao_{log_prefix}.png"
 
     if args.exp == 2:
         failure = ("s4", "s5") if args.topology == "torus" else ("s1", "s3")
@@ -176,6 +237,7 @@ def executar_experimento():
     ryu_proc = None
     net = None
     bwm_proc = None
+    bwm_file = None
     try:
         ryu_proc = iniciar_ryu_se_necessario(args)
 
@@ -227,18 +289,18 @@ def executar_experimento():
             h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
         time.sleep(2)
 
-        def disparar_e_aguardar_iperf(rodada, duracao=10):
-            info("*** [Rodada %d] Disparando fluxos Iperf todos-para-todos (%ds)...\n" % (rodada, duracao))
+        def disparar_e_aguardar_iperf(rodada, tamanho="200M"):
+            info("*** [Rodada %d] Disparando fluxos Iperf todos-para-todos (%s por par)...\n" % (rodada, tamanho))
             for src_name, src_host in host_objs.items():
                 for dst_name, dst_host in host_objs.items():
                     if src_name != dst_name:
                         src_host.cmd(
-                            "iperf -c %s -p 5001 -t %d >/tmp/iperf-client-r%d-%s-%s.log 2>&1 &"
-                            % (dst_host.IP(), duracao, rodada, src_name, dst_name)
+                            "iperf -c %s -p 5001 -n %s >/tmp/iperf-client-r%d-%s-%s.log 2>&1 &"
+                            % (dst_host.IP(), tamanho, rodada, src_name, dst_name)
                         )
 
-            info("*** [Rodada %d] Aguardando finalização dos fluxos...\n" % rodada)
-            deadline = time.time() + duracao + 30
+            info("*** [Rodada %d] Aguardando finalização dos fluxos (limite de 300 s)...\n" % rodada)
+            deadline = time.time() + 300
             while time.time() < deadline:
                 running = False
                 for h in host_objs.values():
@@ -249,24 +311,24 @@ def executar_experimento():
                     break
                 time.sleep(0.5)
             else:
-                info("*** AVISO [Rodada %d]: limite de tempo atingido; encerrando clientes restantes.\n" % rodada)
+                info("*** AVISO [Rodada %d]: limite de 300 s atingido; encerrando clientes restantes.\n" % rodada)
                 for h in host_objs.values():
                     h.cmd("pkill -f '[i]perf -c' >/dev/null 2>&1 || true")
 
         start_time = time.time()
 
-        # 1. Primeira execução de 10 segundos
-        disparar_e_aguardar_iperf(rodada=1, duracao=10)
+        # 1. Primeira transferência de 200 MB por par
+        disparar_e_aguardar_iperf(rodada=1, tamanho="200M")
 
-        # 2. Se for Exp 2, derruba o enlace antes da segunda rodada
+        # 2. Se for Exp 2, derruba o enlace antes da segunda transferência
         if args.exp == 2:
             u_fail, v_fail = failure
             info("*** [Exp 2] Derrubando enlace %s <-> %s\n" % (u_fail, v_fail))
             net.configLinkStatus(u_fail, v_fail, "down")
             time.sleep(1)
 
-        # 3. Segunda execução de 10 segundos
-        disparar_e_aguardar_iperf(rodada=2, duracao=10)
+        # 3. Segunda transferência de 200 MB por par
+        disparar_e_aguardar_iperf(rodada=2, tamanho="200M")
 
         end_time = time.time()
         total_fct = end_time - start_time
@@ -294,6 +356,9 @@ def executar_experimento():
                 bwm_proc.wait(timeout=3)
             except subprocess.TimeoutExpired:
                 bwm_proc.kill()
+        if bwm_file is not None and not bwm_file.closed:
+            bwm_file.flush()
+            bwm_file.close()
         if ryu_proc is not None and ryu_proc.poll() is None:
             info("*** Encerrando o Ryu iniciado por fctmain.py...\n")
             try:
@@ -304,6 +369,9 @@ def executar_experimento():
                     os.killpg(ryu_proc.pid, signal.SIGKILL)
                 except ProcessLookupError:
                     pass
+
+    # Gera o gráfico após fechar o CSV do bwm-ng
+    gerar_grafico_vazao(bwm_log, plot_png, args.topology, args.routing, args.exp)
 
 
 if __name__ == "__main__":
