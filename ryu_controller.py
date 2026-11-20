@@ -48,14 +48,9 @@ class TopoDiscover(app_manager.RyuApp):
     # Conexão dos switches e regra table-miss
     # ---------------------------------------------------------
 
-    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
-    def switch_features_handler(self, ev):
-        dp = ev.msg.datapath
-        self.switches[dp.id] = dp
-
+    def _install_table_miss(self, dp):
         ofp = dp.ofproto
         parser = dp.ofproto_parser
-
         match = parser.OFPMatch()
         actions = [
             parser.OFPActionOutput(
@@ -63,8 +58,14 @@ class TopoDiscover(app_manager.RyuApp):
                 ofp.OFPCML_NO_BUFFER
             )
         ]
-
         self._add_flow(dp, 0, match, actions)
+
+    @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
+    def switch_features_handler(self, ev):
+        dp = ev.msg.datapath
+        self.switches[dp.id] = dp
+
+        self._install_table_miss(dp)
 
         self.logger.info(
             "Switch conectado: s%s; table-miss instalado", dp.id
@@ -85,10 +86,6 @@ class TopoDiscover(app_manager.RyuApp):
 
     @set_ev_cls(event.EventLinkAdd)
     def link_add_handler(self, ev):
-        self._refresh_topology()
-
-    @set_ev_cls(event.EventLinkDelete)
-    def link_delete_handler(self, ev):
         self._refresh_topology()
 
     def _refresh_topology(self):
@@ -179,21 +176,21 @@ class TopoDiscover(app_manager.RyuApp):
 
         dp.send_msg(parser.OFPFlowMod(**kwargs))
 
-    def _clear_all_unicast_flows(self):
-        """Remove regras unicast (prioridade 20) de TODOS os switches para evitar buracos negros."""
-        for sw_dp in self.switches.values():
+    def _clear_all_flows_and_restore_table_miss(self):
+        """Remove regras antigas de TODOS os switches e reinstala imediatamente o table-miss (priority=0)."""
+        for sw_dp in list(self.switches.values()):
             parser = sw_dp.ofproto_parser
             ofp = sw_dp.ofproto
             flow_mod = parser.OFPFlowMod(
                 datapath=sw_dp,
+                table_id=ofp.OFPTT_ALL,
                 command=ofp.OFPFC_DELETE,
                 out_port=ofp.OFPP_ANY,
                 out_group=ofp.OFPG_ANY,
-                priority=20,
                 match=parser.OFPMatch(),
-                instructions=[]
             )
             sw_dp.send_msg(flow_mod)
+            self._install_table_miss(sw_dp)
 
     # ---------------------------------------------------------
     # Aprendizado de Hosts
@@ -358,6 +355,18 @@ class TopoDiscover(app_manager.RyuApp):
     # Tratamento Dinâmico de Falhas
     # ---------------------------------------------------------
 
+    @set_ev_cls(event.EventLinkDelete)
+    def link_delete_handler(self, ev):
+        src = ev.link.src
+        dst = ev.link.dst
+        self.logger.warning(
+            "EventLinkDelete: enlace s%s (porta %s) -> s%s (porta %s) removido",
+            src.dpid, src.port_no, dst.dpid, dst.port_no
+        )
+        if self.net.has_edge(src.dpid, dst.dpid):
+            self.net.remove_edge(src.dpid, dst.dpid)
+        self._clear_all_flows_and_restore_table_miss()
+
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def port_status_handler(self, ev):
         msg = ev.msg
@@ -371,8 +380,13 @@ class TopoDiscover(app_manager.RyuApp):
                     "FALHA DETECTADA: Switch s%s - Porta %s caiu (Link Down)!",
                     dp.id, port_no
                 )
-                self._refresh_topology()
-                self._clear_all_unicast_flows()
+                for u, v, data in list(self.net.edges(data=True)):
+                    if u == dp.id and data.get("port") == port_no:
+                        self.net.remove_edge(u, v)
+                        if self.net.has_edge(v, u):
+                            self.net.remove_edge(v, u)
+
+                self._clear_all_flows_and_restore_table_miss()
                 self.logger.info(
-                    "Regras unicast removidas de TODOS os switches via OFPFC_DELETE."
+                    "Regras antigas limpas e table-miss restaurado em TODOS os switches."
                 )
