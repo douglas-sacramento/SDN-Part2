@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-# Monta a topologia Mininet, inicia Ryu e executa o experimento com fluxo único de 400M
+# Monta a topologia Mininet, inicia Ryu e executa o experimento todos-para-todos
 import argparse
 import os
 import re
@@ -31,14 +31,14 @@ RYU_LOG = BASE_DIR / "ryu.log"
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="Experimento SDN: descoberta, encaminhamento e medição FCT"
+        description="Experimento SDN: descoberta, encaminhamento e medição FCT (todos-para-todos)"
     )
     parser.add_argument("--topology", choices=["torus", "spineleaf"], required=True,
                         help="Topologia definida em torus.txt ou spineleaf.txt")
     parser.add_argument("--routing", choices=["ospf", "ecmp"], required=True,
                         help="ospf=menor caminho; ecmp=próximos saltos de mesmo custo")
     parser.add_argument("--exp", type=int, choices=[1, 2], required=True,
-                        help="1=tráfego normal; 2=injeta uma falha de enlace durante a transferência")
+                        help="1=tráfego normal; 2=injeta uma falha de enlace")
     parser.add_argument("--controller-ip", default="127.0.0.1",
                         help="IP do controlador Ryu (padrão: 127.0.0.1)")
     parser.add_argument("--controller-port", type=int, default=6633,
@@ -47,6 +47,8 @@ def parse_args():
                         help="Segundos para descoberta da topologia antes dos testes")
     parser.add_argument("--bw", type=int, default=200,
                         help="Largura de banda dos enlaces em Mbps (padrão: 200)")
+    parser.add_argument("--size", default="50M",
+                        help="Volume transferido por par origem-destino (padrão: 50M)")
     return parser.parse_args()
 
 
@@ -163,7 +165,7 @@ def desabilitar_ipv6(net):
         node.cmd("sysctl -w net.ipv6.conf.lo.disable_ipv6=1")
 
 
-def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
+def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp, tempo_falha=None):
     if not bwm_csv_path.is_file() or bwm_csv_path.stat().st_size == 0:
         info("*** AVISO: Arquivo CSV de banda vazio ou inexistente; gráfico não gerado.\n")
         return
@@ -201,10 +203,10 @@ def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
     for switch_name in df_grouped.columns:
         plt.plot(df_grouped.index, df_grouped[switch_name], label=switch_name, linewidth=2)
 
-    if exp == 2:
-        plt.axvline(x=6, color="red", linestyle="--", linewidth=1.5, label="Queda do Enlace (6s)")
+    if exp == 2 and tempo_falha is not None:
+        plt.axvline(x=tempo_falha, color="red", linestyle="--", linewidth=1.5, label="Queda do Enlace")
 
-    plt.title(f"Vazão vs. Tempo - Fluxo Único 400MB ({topology.upper()} - {routing.upper()} E{exp})")
+    plt.title(f"Vazão vs. Tempo - Distribuição de Carga por Switch ({topology.upper()} - {routing.upper()} E{exp})")
     plt.xlabel("Tempo (segundos)")
     plt.ylabel("Vazão Total (Mbps)")
     plt.grid(True, linestyle="--", alpha=0.7)
@@ -235,8 +237,8 @@ def executar_experimento():
             )
 
     info("\n===================================================\n")
-    info(" Topologia=%s | Roteamento=%s | Experimento=%s | Banda=%d Mbps\n" %
-         (args.topology, args.routing, args.exp, args.bw))
+    info(" Topologia=%s | Roteamento=%s | Experimento=%s | Banda=%d Mbps | Fluxo=%s\n" %
+         (args.topology, args.routing, args.exp, args.bw, args.size))
     info(" Switches: %s\n Enlaces: %d\n" % (", ".join(sw_names), len(edges)))
     info("===================================================\n\n")
 
@@ -244,6 +246,7 @@ def executar_experimento():
     net = None
     bwm_proc = None
     bwm_file = None
+    tempo_falha = None
     try:
         ryu_proc = iniciar_ryu_limpo(args)
 
@@ -281,19 +284,6 @@ def executar_experimento():
         info("*** Teste inicial de conectividade (pingAll)...\n")
         net.pingAll()
 
-        # Seleciona par origem -> destino que atravessa o enlace sujeito a falha
-        if args.topology == "torus":
-            src_name, dst_name = "h4", "h5"
-        else:
-            src_name, dst_name = "h1", "h3"
-
-        if src_name not in host_objs or dst_name not in host_objs:
-            sorted_hosts = sorted(host_objs.keys(), key=lambda h: int(h[1:]))
-            src_name, dst_name = sorted_hosts[0], sorted_hosts[-1]
-
-        src_host = host_objs[src_name]
-        dst_host = host_objs[dst_name]
-
         info("*** Iniciando monitoramento de largura de banda: %s\n" % bwm_log.name)
         bwm_file = bwm_log.open("w", encoding="utf-8")
         bwm_proc = subprocess.Popen(
@@ -301,53 +291,61 @@ def executar_experimento():
             stdout=bwm_file, stderr=subprocess.STDOUT, start_new_session=True
         )
 
-        info("*** Iniciando servidor Iperf no destino (%s)...\n" % dst_name)
-        dst_host.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % dst_name)
-        time.sleep(1)
+        info("*** Iniciando servidores Iperf nos hosts...\n")
+        for h in host_objs.values():
+            h.cmd("iperf -s -p 5001 >/tmp/iperf-server-%s.log 2>&1 &" % h.name)
+        time.sleep(2)
 
-        client_log = f"/tmp/iperf-client-{src_name}-{dst_name}.log"
-        info("*** Disparando fluxo único Iperf: %s -> %s (400 MB a %d Mbps)...\n" %
-             (src_name, dst_name, args.bw))
+        def disparar_e_aguardar_iperf(rodada, tamanho):
+            total_pares = len(host_objs) * (len(host_objs) - 1)
+            info("*** [Rodada %d] Disparando %d fluxos Iperf todos-para-todos (%s por par)...\n" %
+                 (rodada, total_pares, tamanho))
+            for src_name, src_host in host_objs.items():
+                for dst_name, dst_host in host_objs.items():
+                    if src_name != dst_name:
+                        src_host.cmd(
+                            "iperf -c %s -p 5001 -n %s >/tmp/iperf-client-r%d-%s-%s.log 2>&1 &"
+                            % (dst_host.IP(), tamanho, rodada, src_name, dst_name)
+                        )
+
+            info("*** [Rodada %d] Aguardando finalização dos fluxos (limite de 300 s)...\n" % rodada)
+            deadline = time.time() + 300
+            while time.time() < deadline:
+                res = subprocess.run(["pgrep", "-fc", "[i]perf -c"], capture_output=True, text=True)
+                ativos = int(res.stdout.strip() or 0)
+                if ativos == 0:
+                    break
+                time.sleep(1)
+            else:
+                info("*** AVISO [Rodada %d]: limite de 300 s atingido; encerrando clientes restantes.\n" % rodada)
+                subprocess.run(["pkill", "-9", "-f", "[i]perf -c"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+
         start_time = time.time()
-        src_host.cmd(
-            "iperf -c %s -p 5001 -n 400M >%s 2>&1 &"
-            % (dst_host.IP(), client_log)
-        )
 
-        # Se for Exp 2, derruba o enlace no meio da transferência (aos 6 segundos)
+        # 1. Primeira rodada todos-para-todos
+        disparar_e_aguardar_iperf(rodada=1, tamanho=args.size)
+
+        # 2. Se for Exp 2, derruba o enlace antes da segunda rodada
         if args.exp == 2:
-            info("*** [Exp 2] Aguardando 6 s de transferência antes de derrubar enlace...\n")
-            time.sleep(6)
             u_fail, v_fail = failure
-            info("*** [Exp 2] Derrubando enlace %s <-> %s no meio do fluxo!\n" % (u_fail, v_fail))
+            tempo_falha = round(time.time() - start_time)
+            info("*** [Exp 2] Derrubando enlace %s <-> %s (t=%ds)\n" % (u_fail, v_fail, tempo_falha))
             net.configLinkStatus(u_fail, v_fail, "down")
+            time.sleep(2)
 
-        info("*** Aguardando conclusão da transferência de 400 MB (limite de 120 s)...\n")
-        deadline = time.time() + 120
-        while time.time() < deadline:
-            res = subprocess.run(["pgrep", "-fc", "[i]perf -c"], capture_output=True, text=True)
-            ativos = int(res.stdout.strip() or 0)
-            if ativos == 0:
-                break
-            time.sleep(0.5)
-        else:
-            info("*** AVISO: limite de 120 s atingido; encerrando cliente Iperf restante.\n")
-            subprocess.run(["pkill", "-9", "-f", "[i]perf -c"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
+        # 3. Segunda rodada todos-para-todos
+        disparar_e_aguardar_iperf(rodada=2, tamanho=args.size)
 
         end_time = time.time()
         total_fct = end_time - start_time
         info("\n===================================================\n")
-        info(" FCT TOTAL (%s -> %s | %s): %.2f segundos\n" % (src_name, dst_name, log_prefix, total_fct))
+        info(" FCT TOTAL (%s): %.2f segundos\n" % (log_prefix, total_fct))
         info("===================================================\n\n")
-
-        if Path(client_log).is_file():
-            info("*** Resumo do Iperf (%s):\n%s\n" % (client_log, Path(client_log).read_text(encoding="utf-8", errors="replace")))
 
         with fct_log.open("w", encoding="utf-8") as f:
             f.write(
                 f"Topology: {args.topology}\nRouting: {args.routing}\n"
-                f"Exp: {args.exp}\nFlow: {src_name}->{dst_name}\n"
-                f"FCT_Seconds: {total_fct:.4f}\n"
+                f"Exp: {args.exp}\nFCT_Seconds: {total_fct:.4f}\n"
             )
         info("*** Resultado FCT gravado em %s\n" % fct_log)
 
@@ -378,7 +376,7 @@ def executar_experimento():
                 except ProcessLookupError:
                     pass
 
-    gerar_grafico_vazao(bwm_log, plot_png, args.topology, args.routing, args.exp)
+    gerar_grafico_vazao(bwm_log, plot_png, args.topology, args.routing, args.exp, tempo_falha)
 
 
 if __name__ == "__main__":
