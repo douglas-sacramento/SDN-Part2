@@ -1,11 +1,10 @@
 loading app /home/mininet/SDN-Part2/ryu_controller.py
-loading app ryu.controller.ofp_handler
 loading app ryu.topology.switches
 loading app ryu.controller.ofp_handler
 instantiating app /home/mininet/SDN-Part2/ryu_controller.py of TopoDiscover
 Controlador iniciado; roteamento=ecmp
-instantiating app ryu.controller.ofp_handler of OFPHandler
 instantiating app ryu.topology.switches of Switches
+instantiating app ryu.controller.ofp_handler of OFPHandler
 Switch conectado: s1; table-miss instalado
 Discovery (NetworkX): 0 nós, 0 enlaces direcionados
 Switches no grafo: []
@@ -37,18 +36,16 @@ Switches no grafo: [1, 2, 3]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s2 -> s1 (porta 2)
 Enlace: s3 -> s2 (porta 2)
-Discovery (NetworkX): 3 nós, 4 enlaces direcionados
-Switches no grafo: [1, 2, 3]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s3 -> s2 (porta 2)
 Switch conectado: s4; table-miss instalado
-Discovery (NetworkX): 3 nós, 4 enlaces direcionados
+Discovery (NetworkX): 3 nós, 3 enlaces direcionados
 Switches no grafo: [1, 2, 3]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
+Enlace: s3 -> s2 (porta 2)
+Discovery (NetworkX): 4 nós, 3 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s2 -> s1 (porta 2)
 Enlace: s3 -> s2 (porta 2)
 Discovery (NetworkX): 4 nós, 4 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4]
@@ -88,59 +85,43 @@ Enlace: s2 -> s1 (porta 2)
 Enlace: s2 -> s3 (porta 3)
 Enlace: s3 -> s2 (porta 2)
 Enlace: s4 -> s1 (porta 3)
-Discovery (NetworkX): 5 nós, 7 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s5 -> s2 (porta 4)
-Discovery (NetworkX): 5 nós, 8 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Discovery (NetworkX): 5 nós, 9 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Discovery (NetworkX): 5 nós, 10 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
 Switch conectado: s6; table-miss instalado
-Discovery (NetworkX): 5 nós, 10 enlaces direcionados
+Discovery (NetworkX): 5 nós, 6 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
 Enlace: s2 -> s1 (porta 2)
 Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
 Enlace: s3 -> s2 (porta 2)
 Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
+Discovery (NetworkX): 6 nós, 8 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Discovery (NetworkX): 6 nós, 8 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Discovery (NetworkX): 6 nós, 8 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
 Discovery (NetworkX): 6 nós, 10 enlaces direcionados
@@ -152,10 +133,10 @@ Enlace: s2 -> s3 (porta 3)
 Enlace: s2 -> s5 (porta 4)
 Enlace: s3 -> s2 (porta 2)
 Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
-Discovery (NetworkX): 6 nós, 11 enlaces direcionados
+Enlace: s6 -> s5 (porta 2)
+Discovery (NetworkX): 6 nós, 10 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -164,10 +145,9 @@ Enlace: s2 -> s3 (porta 3)
 Enlace: s2 -> s5 (porta 4)
 Enlace: s3 -> s2 (porta 2)
 Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
-Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
 Discovery (NetworkX): 6 nós, 12 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6]
 Enlace: s1 -> s2 (porta 2)
@@ -183,23 +163,49 @@ Enlace: s5 -> s4 (porta 2)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
 Switch conectado: s7; table-miss instalado
-Discovery (NetworkX): 6 nós, 14 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6]
+Discovery (NetworkX): 7 nós, 12 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
 Enlace: s2 -> s1 (porta 2)
 Enlace: s2 -> s3 (porta 3)
 Enlace: s2 -> s5 (porta 4)
 Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
 Enlace: s4 -> s1 (porta 3)
 Enlace: s4 -> s5 (porta 2)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
-Discovery (NetworkX): 7 nós, 14 enlaces direcionados
+Discovery (NetworkX): 7 nós, 12 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Discovery (NetworkX): 7 nós, 12 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Discovery (NetworkX): 7 nós, 15 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -215,7 +221,8 @@ Enlace: s5 -> s4 (porta 2)
 Enlace: s5 -> s6 (porta 3)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
-Discovery (NetworkX): 7 nós, 14 enlaces direcionados
+Enlace: s7 -> s4 (porta 3)
+Discovery (NetworkX): 7 nós, 15 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -231,22 +238,7 @@ Enlace: s5 -> s4 (porta 2)
 Enlace: s5 -> s6 (porta 3)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
-Discovery (NetworkX): 7 nós, 14 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
+Enlace: s7 -> s4 (porta 3)
 Discovery (NetworkX): 7 nós, 15 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7]
 Enlace: s1 -> s2 (porta 2)
@@ -282,7 +274,7 @@ Enlace: s5 -> s6 (porta 3)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
 Enlace: s7 -> s4 (porta 3)
-Discovery (NetworkX): 8 nós, 15 enlaces direcionados
+Discovery (NetworkX): 8 nós, 16 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -293,6 +285,7 @@ Enlace: s3 -> s2 (porta 2)
 Enlace: s3 -> s6 (porta 3)
 Enlace: s4 -> s1 (porta 3)
 Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
 Enlace: s5 -> s6 (porta 3)
@@ -319,7 +312,7 @@ Enlace: s6 -> s5 (porta 2)
 Enlace: s7 -> s4 (porta 3)
 Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
-Discovery (NetworkX): 8 nós, 18 enlaces direcionados
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -334,12 +327,14 @@ Enlace: s4 -> s7 (porta 4)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
 Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
 Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
 Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
-Discovery (NetworkX): 8 nós, 18 enlaces direcionados
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -354,54 +349,60 @@ Enlace: s4 -> s7 (porta 4)
 Enlace: s5 -> s2 (porta 4)
 Enlace: s5 -> s4 (porta 2)
 Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
 Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
 Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
 Switch conectado: s9; table-miss instalado
-Discovery (NetworkX): 8 nós, 18 enlaces direcionados
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-Discovery (NetworkX): 9 nós, 18 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-Discovery (NetworkX): 9 nós, 20 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
 Enlace: s2 -> s1 (porta 2)
@@ -468,7 +469,7 @@ Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
 Enlace: s9 -> s6 (porta 3)
 Enlace: s9 -> s8 (porta 2)
-Discovery (NetworkX): 9 nós, 24 enlaces direcionados
+Discovery (NetworkX): 9 nós, 22 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -486,12 +487,10 @@ Enlace: s5 -> s6 (porta 3)
 Enlace: s5 -> s8 (porta 5)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
-Enlace: s6 -> s9 (porta 4)
 Enlace: s7 -> s4 (porta 3)
 Enlace: s7 -> s8 (porta 2)
 Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
-Enlace: s8 -> s9 (porta 3)
 Enlace: s9 -> s6 (porta 3)
 Enlace: s9 -> s8 (porta 2)
 Discovery (NetworkX): 9 nós, 24 enlaces direcionados
@@ -556,32 +555,6 @@ Host aprendido: IP=10.0.0.7 MAC=00:00:00:00:00:07 switch=s7 porta=1
 Host aprendido: IP=10.0.0.8 MAC=00:00:00:00:00:08 switch=s8 porta=1
 Host aprendido: IP=10.0.0.9 MAC=00:00:00:00:00:09 switch=s9 porta=1
 FALHA DETECTADA: Switch s4 - Porta 2 caiu (Link Down)!
-Discovery (NetworkX): 9 nós, 22 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s5 -> s8 (porta 5)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s6 -> s9 (porta 4)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s7 -> s8 (porta 2)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-Enlace: s8 -> s9 (porta 3)
-Enlace: s9 -> s6 (porta 3)
-Enlace: s9 -> s8 (porta 2)
-Regras unicast removidas de TODOS os switches via OFPFC_DELETE.
-FALHA DETECTADA: Switch s5 - Porta 2 caiu (Link Down)!
 Discovery (NetworkX): 9 nós, 22 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Enlace: s1 -> s2 (porta 2)

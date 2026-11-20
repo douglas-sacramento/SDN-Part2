@@ -318,7 +318,7 @@ def executar_experimento():
             time.sleep(2)
 
         # 3. Segunda transferência de 200 MB por par
-        disparar_e_aguardar_iperf(rodada=2, tamanho="200M")
+        disparar_e_aguardar_iperf(rodada=2, tamanho="50M")
 
         end_time = time.time()
         total_fct = end_time - start_time
