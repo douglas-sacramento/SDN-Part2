@@ -1,4 +1,4 @@
 Topology: torus
 Routing: ecmp
 Exp: 2
-FCT_Seconds: 135.5994
+FCT_Seconds: 7.6308
