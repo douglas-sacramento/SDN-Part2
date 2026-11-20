@@ -176,11 +176,20 @@ def gerar_grafico_vazao(bwm_csv_path, output_png_path, topology, routing, exp):
 
     df_switches[0] = pd.to_numeric(df_switches[0], errors="coerce")
     df_switches = df_switches.dropna(subset=[0])
-    t0 = df_switches[0].min()
-    df_switches["tempo_relativo"] = df_switches[0] - t0
 
     df_switches["vazao_mbps"] = pd.to_numeric(df_switches[2], errors="coerce") / 1e6
-    df_switches["tempo_bin"] = np.round(df_switches["tempo_relativo"] / 0.1) * 0.1
+    # Filtra possíveis estouros de contador 64-bit do bwm-ng
+    df_switches = df_switches[
+        (df_switches["vazao_mbps"] >= 0) & (df_switches["vazao_mbps"] < 100000)
+    ].copy()
+
+    if df_switches.empty:
+        info("*** AVISO: Nenhuma amostra válida no CSV; gráfico não gerado.\n")
+        return
+
+    t0 = df_switches[0].min()
+    df_switches["tempo_relativo"] = df_switches[0] - t0
+    df_switches["tempo_bin"] = np.round(df_switches["tempo_relativo"])
 
     df_grouped = df_switches.groupby(["tempo_bin", "switch"])["vazao_mbps"].sum().unstack().fillna(0)
     sorted_cols = sorted(df_grouped.columns, key=lambda s: int(s[1:]) if s[1:].isdigit() else s)
@@ -292,18 +301,14 @@ def executar_experimento():
             info("*** [Rodada %d] Aguardando finalização dos fluxos (limite de 300 s)...\n" % rodada)
             deadline = time.time() + 300
             while time.time() < deadline:
-                running = False
-                for h in host_objs.values():
-                    if h.cmd("pgrep -f '[i]perf -c'").strip():
-                        running = True
-                        break
-                if not running:
+                res = subprocess.run(["pgrep", "-fc", "[i]perf -c"], capture_output=True, text=True)
+                ativos = int(res.stdout.strip() or 0)
+                if ativos == 0:
                     break
-                time.sleep(0.5)
+                time.sleep(1)
             else:
                 info("*** AVISO [Rodada %d]: limite de 300 s atingido; encerrando clientes restantes.\n" % rodada)
-                for h in host_objs.values():
-                    h.cmd("pkill -f '[i]perf -c' >/dev/null 2>&1 || true")
+                subprocess.run(["pkill", "-9", "-f", "[i]perf -c"], stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
 
         start_time = time.time()
 
@@ -318,7 +323,7 @@ def executar_experimento():
             time.sleep(2)
 
         # 3. Segunda transferência de 200 MB por par
-        disparar_e_aguardar_iperf(rodada=2, tamanho="50M")
+        disparar_e_aguardar_iperf(rodada=2, tamanho="200M")
 
         end_time = time.time()
         total_fct = end_time - start_time
