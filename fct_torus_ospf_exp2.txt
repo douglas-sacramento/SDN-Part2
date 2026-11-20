@@ -1,4 +1,4 @@
 Topology: torus
 Routing: ospf
 Exp: 2
-FCT_Seconds: 315.5717
+FCT_Seconds: 32.8971

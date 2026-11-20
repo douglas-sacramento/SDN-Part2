@@ -1,4 +1,4 @@
 Topology: spineleaf
 Routing: ospf
 Exp: 2
-FCT_Seconds: 315.2149
+FCT_Seconds: 21.5073
