@@ -1,7 +1,8 @@
-#!/usr/bin/env python3
+a#!/usr/bin/env python3
 """
 Gera o gráfico de barras comparativo de Flow Completion Time (FCT) para o Experimento 1
-lendo automaticamente os arquivos fct_<topologia>_<roteamento>_exp1.txt gerados pelo fctmain.py.
+lendo automaticamente os arquivos `logs/fct_<topologia>_<roteamento>_exp1.txt` e salvando
+o resultado em `graficos/comparacao_fct_exp1.png`.
 """
 
 import argparse
@@ -14,12 +15,14 @@ import matplotlib.pyplot as plt
 
 
 BASE_DIR = Path(__file__).resolve().parent
+LOGS_DIR = BASE_DIR / "logs"
+GRAFICOS_DIR = BASE_DIR / "graficos"
 
 COMBINACOES = [
-    ("torus", "ospf", "Torus\n(OSPF)"),
     ("torus", "ecmp", "Torus\n(ECMP)"),
-    ("spineleaf", "ospf", "Spine-Leaf\n(OSPF)"),
+    ("torus", "ospf", "Torus\n(OSPF)"),
     ("spineleaf", "ecmp", "Spine-Leaf\n(ECMP)"),
+    ("spineleaf", "ospf", "Spine-Leaf\n(OSPF)"),
 ]
 
 
@@ -35,7 +38,7 @@ def ler_fct(arquivo_txt: Path) -> float:
     raise ValueError(f"Chave 'FCT_Seconds:' não encontrada em {arquivo_txt}")
 
 
-def gerar_grafico_fct(diretorio: Path, exp: int, output_path: Path, permitir_parcial: bool = False):
+def gerar_grafico_fct(logs_dir: Path, exp: int, output_path: Path, permitir_parcial: bool = False):
     labels = []
     valores = []
     cores = []
@@ -46,7 +49,7 @@ def gerar_grafico_fct(diretorio: Path, exp: int, output_path: Path, permitir_par
     }
 
     for topo, routing, label in COMBINACOES:
-        arquivo = diretorio / f"fct_{topo}_{routing}_exp{exp}.txt"
+        arquivo = logs_dir / f"fct_{topo}_{routing}_exp{exp}.txt"
         try:
             fct_val = ler_fct(arquivo)
             labels.append(label)
@@ -61,10 +64,11 @@ def gerar_grafico_fct(diretorio: Path, exp: int, output_path: Path, permitir_par
     if not valores:
         raise RuntimeError("Nenhum arquivo de FCT válido encontrado para gerar o gráfico.")
 
+    output_path.parent.mkdir(parents=True, exist_ok=True)
+
     fig, ax = plt.subplots(figsize=(10, 6))
     barras = ax.bar(labels, valores, color=cores, width=0.52, edgecolor="#1f1f1f", linewidth=0.9)
 
-    # Adiciona o valor numérico exato acima de cada barra
     max_val = max(valores)
     for barra, val in zip(barras, valores):
         ax.text(
@@ -78,12 +82,11 @@ def gerar_grafico_fct(diretorio: Path, exp: int, output_path: Path, permitir_par
             color="#222222",
         )
 
-    # Legenda manual para distinguir os protocolos de roteamento
     handles = [
-        plt.Rectangle((0, 0), 1, 1, color=paleta["ospf"], edgecolor="#1f1f1f"),
         plt.Rectangle((0, 0), 1, 1, color=paleta["ecmp"], edgecolor="#1f1f1f"),
+        plt.Rectangle((0, 0), 1, 1, color=paleta["ospf"], edgecolor="#1f1f1f"),
     ]
-    ax.legend(handles, ["OSPF (Menor Caminho)", "ECMP (Múltiplos Caminhos)"], title="Roteamento", loc="upper right")
+    ax.legend(handles, ["ECMP (Múltiplos Caminhos)", "OSPF (Menor Caminho)"], title="Roteamento", loc="upper right")
 
     ax.set_title(
         f"Comparação do Tempo Final de Conclusão de Fluxo (FCT) - Experimento {exp}",
@@ -108,8 +111,8 @@ def main():
         description="Gera gráfico de barras comparando o FCT das 4 combinações de topologia/roteamento."
     )
     parser.add_argument(
-        "--dir", type=Path, default=BASE_DIR,
-        help="Diretório onde estão os arquivos fct_*.txt (padrão: mesma pasta do script)"
+        "--logs-dir", type=Path, default=LOGS_DIR,
+        help="Diretório onde estão os arquivos fct_*.txt (padrão: logs/)"
     )
     parser.add_argument(
         "--exp", type=int, default=1, choices=[1, 2],
@@ -117,7 +120,7 @@ def main():
     )
     parser.add_argument(
         "--out", type=Path, default=None,
-        help="Caminho do arquivo PNG de saída (padrão: comparacao_fct_exp<exp>.png)"
+        help="Caminho do arquivo PNG de saída (padrão: graficos/comparacao_fct_exp<exp>.png)"
     )
     parser.add_argument(
         "--parcial", action="store_true",
@@ -125,9 +128,9 @@ def main():
     )
     args = parser.parse_args()
 
-    output_png = args.out if args.out else (args.dir / f"comparacao_fct_exp{args.exp}.png")
+    output_png = args.out if args.out else (GRAFICOS_DIR / f"comparacao_fct_exp{args.exp}.png")
     try:
-        gerar_grafico_fct(args.dir, args.exp, output_png, permitir_parcial=args.parcial)
+        gerar_grafico_fct(args.logs_dir, args.exp, output_png, permitir_parcial=args.parcial)
     except Exception as exc:
         print(f"ERRO: {exc}", file=sys.stderr)
         sys.exit(1)
