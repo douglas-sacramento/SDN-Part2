@@ -124,8 +124,7 @@ def carregar_topologia(arquivo_topo: Path):
     switches = set()
     if not arquivo_topo.is_file():
         raise FileNotFoundError(
-            f"Arquivo de topologia não encontrado: {arquivo_topo}
-"
+            f"Arquivo de topologia não encontrado: {arquivo_topo}\n"
             f"Certifique-se de mover '{arquivo_topo.name}' para a pasta '{TOPOLOGIAS_DIR}'."
         )
 

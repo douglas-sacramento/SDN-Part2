@@ -1,4 +1,4 @@
-a#!/usr/bin/env python3
+#!/usr/bin/env python3
 """
 Gera o gráfico de barras comparativo de Flow Completion Time (FCT) para o Experimento 1
 lendo automaticamente os arquivos `logs/fct_<topologia>_<roteamento>_exp1.txt` e salvando

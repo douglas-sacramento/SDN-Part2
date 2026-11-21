@@ -1,0 +1,4 @@
+Topology: spineleaf
+Routing: ospf
+Exp: 2
+FCT_Seconds: 23.5636
