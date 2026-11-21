@@ -1,9 +1,21 @@
 #!/usr/bin/env python3
 """
-Controlador Ryu para descoberta de topologia via NetworkX e encaminhamento OpenFlow 1.3.
+Controlador SDN Ryu com Descoberta de Topologia, Roteamento OSPF/ECMP e Tolerância a Falhas.
 
-- ospf: encaminhamento por menor caminho (NetworkX shortest_path).
-- ecmp: múltiplos menores caminhos com seleção via função de hash determinística (get_route_ecmp).
+Arquitetura e funcionalidades principais:
+1. Descoberta Dinâmica (Discovery): Constrói e mantém um grafo direcionado (`networkx.DiGraph`)
+   representando switches (nós) e enlaces internos (arestas com porta de saída) via eventos LLDP.
+2. Algoritmos de Roteamento (selecionados via variável de ambiente `SDN_ROUTING`):
+   - `ospf`: Calcula o menor caminho único entre origem e destino (`nx.shortest_path`).
+   - `ecmp`: Calcula todos os caminhos mínimos de mesmo custo (`nx.all_shortest_paths`) e
+     seleciona uma rota de forma determinística por par de switches usando função de hash.
+3. Encaminhamento Proativo por Fluxo: Instala regras OpenFlow 1.3 (prioridade 20) nos switches
+   ao longo do caminho para encaminhar quadros unicast diretamente no plano de dados.
+4. Flooding Seguro sem Loops: Utiliza uma Árvore Geradora Mínima (`nx.minimum_spanning_tree`)
+   para inundar pacotes ARP/Broadcast sem provocar tempestades de broadcast em topologias cíclicas (Torus).
+5. Reconvergência Rápida a Falhas: Monitora `EventOFPPortStatus` (`OFPPS_LINK_DOWN`) e `EventLinkDelete`,
+   remove imediatamente as arestas afetadas do grafo, limpa as regras antigas de todos os switches e
+   restaura a regra `table-miss` (prioridade 0) para recalcular rotas sem perda permanente de tráfego.
 """
 
 import os
@@ -23,9 +35,12 @@ from ryu.topology.api import get_switch, get_link
 
 
 class TopoDiscover(app_manager.RyuApp):
+    """Aplicação principal do controlador Ryu usando OpenFlow 1.3."""
+
     OFP_VERSIONS = [ofproto_v1_3.OFP_VERSION]
 
     def __init__(self, *args, **kwargs):
+        """Inicializa estruturas de dados da topologia, tabelas de hosts e modo de roteamento."""
         super(TopoDiscover, self).__init__(*args, **kwargs)
 
         self.topology_api_app = self
@@ -35,20 +50,25 @@ class TopoDiscover(app_manager.RyuApp):
             self.logger.warning("Modo %s inválido; usando ospf", self.routing)
             self.routing = "ospf"
 
-        self.net = nx.DiGraph()
-        self.switches = {}       # DPID -> datapath
-        self.hosts = {}          # IP -> {mac, dpid, port}
-        self.mac_to_host = {}    # MAC -> IP
+        # Estruturas de estado da rede
+        self.net = nx.DiGraph()  # Grafo direcionado: nós = DPIDs; arestas = (u, v, port=porta_saida_u)
+        self.switches = {}       # Mapeamento DPID (int) -> objeto Datapath
+        self.hosts = {}          # Mapeamento IP (str) -> {'mac': str, 'dpid': int, 'port': int}
+        self.mac_to_host = {}    # Mapeamento reverso MAC (str) -> IP (str)
 
         self.logger.info(
             "Controlador iniciado; roteamento=%s", self.routing
         )
 
-    # ---------------------------------------------------------
-    # Conexão dos switches e regra table-miss
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 1. CONEXÃO DE SWITCHES E REGRA TABLE-MISS
+    # ==========================================================================
 
     def _install_table_miss(self, dp):
+        """
+        Instala a regra padrão (prioridade 0) no switch.
+        Qualquer pacote que não corresponda a uma regra específica é enviado ao controlador (PacketIn).
+        """
         ofp = dp.ofproto
         parser = dp.ofproto_parser
         match = parser.OFPMatch()
@@ -62,6 +82,7 @@ class TopoDiscover(app_manager.RyuApp):
 
     @set_ev_cls(ofp_event.EventOFPSwitchFeatures, CONFIG_DISPATCHER)
     def switch_features_handler(self, ev):
+        """Trata o handshake inicial de cada switch OpenFlow conectado ao controlador."""
         dp = ev.msg.datapath
         self.switches[dp.id] = dp
 
@@ -72,23 +93,30 @@ class TopoDiscover(app_manager.RyuApp):
         )
         self._refresh_topology()
 
-    # ---------------------------------------------------------
-    # Discovery de switches e enlaces
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 2. DESCOBERTA DE TOPOLOGIA (LLDP / NETWORKX)
+    # ==========================================================================
 
     @set_ev_cls(event.EventSwitchEnter)
     def switch_enter_handler(self, ev):
+        """Disparado quando um novo switch entra na topologia."""
         self._refresh_topology()
 
     @set_ev_cls(event.EventSwitchLeave)
     def switch_leave_handler(self, ev):
+        """Disparado quando um switch deixa a topologia."""
         self._refresh_topology()
 
     @set_ev_cls(event.EventLinkAdd)
     def link_add_handler(self, ev):
+        """Disparado quando um enlace entre switches é descoberto via LLDP."""
         self._refresh_topology()
 
     def _refresh_topology(self):
+        """
+        Consulta a API de topologia do Ryu (`get_switch` e `get_link`) e reconstrói
+        o grafo direcionado `self.net` no NetworkX com os switches e portas atuais.
+        """
         try:
             switch_list = get_switch(self.topology_api_app, None)
             link_list = get_link(self.topology_api_app, None)
@@ -117,15 +145,28 @@ class TopoDiscover(app_manager.RyuApp):
             self.logger.debug("Topologia ainda não disponível: %s", exc)
 
     def print_full_topology(self):
+        """Registra no log os nós e enlaces direcionados atualmente conhecidos."""
         self.logger.info("Switches no grafo: %s", sorted(list(self.net.nodes)))
         for u, v, data in sorted(self.net.edges(data=True)):
             self.logger.info("Enlace: s%s -> s%s (porta %s)", u, v, data.get("port"))
 
-    # ---------------------------------------------------------
-    # Cálculo de Rotas (OSPF e ECMP Hash)
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 3. ALGORITMOS DE ROTEAMENTO (OSPF E ECMP)
+    # ==========================================================================
 
-    def get_route_ecmp(self, switch_in, switch_out, paths):
+    def get_route_ecmp(self, switch_in: str, switch_out: str, paths: list):
+        """
+        Seleciona deterministicamente um dos caminhos mínimos de mesmo custo (ECMP)
+        aplicando uma função de hash sobre os identificadores dos switches de origem e destino.
+
+        Parâmetros:
+            switch_in (str): Identificador do switch de origem.
+            switch_out (str): Identificador do switch de destino.
+            paths (list[list[int]]): Lista de todos os caminhos mínimos encontrados.
+
+        Retorna:
+            list[int] | None: O caminho escolhido ou None caso a lista esteja vazia.
+        """
         if paths:
             hash_val = hash(str(switch_in) + str(switch_out))
             choice = hash_val % len(paths)
@@ -133,7 +174,18 @@ class TopoDiscover(app_manager.RyuApp):
             return path
         return None
 
-    def find_route(self, src_dpid, dst_dpid, method):
+    def find_route(self, src_dpid: int, dst_dpid: int, method: str):
+        """
+        Calcula a sequência de switches (lista de DPIDs) entre `src_dpid` e `dst_dpid`.
+
+        Parâmetros:
+            src_dpid (int): DPID do switch atual/origem.
+            dst_dpid (int): DPID do switch onde o host destino está conectado.
+            method (str): 'ospf' para menor caminho único ou 'ecmp' para múltiplos caminhos mínimos.
+
+        Retorna:
+            list[int] | None: Lista ordenada de DPIDs representando a rota, ou None se inacessível.
+        """
         if not self.net.has_node(src_dpid) or not self.net.has_node(dst_dpid):
             return None
 
@@ -149,11 +201,12 @@ class TopoDiscover(app_manager.RyuApp):
 
         return None
 
-    # ---------------------------------------------------------
-    # Instalação e Limpeza de regras OpenFlow
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 4. GERENCIAMENTO DE REGRAS OPENFLOW (FLOWMOD)
+    # ==========================================================================
 
-    def _add_flow(self, dp, priority, match, actions, buffer_id=None):
+    def _add_flow(self, dp, priority: int, match, actions: list, buffer_id=None):
+        """Envia uma mensagem OFPFlowMod para instalar uma regra de encaminhamento no switch."""
         parser = dp.ofproto_parser
         ofp = dp.ofproto
 
@@ -177,7 +230,11 @@ class TopoDiscover(app_manager.RyuApp):
         dp.send_msg(parser.OFPFlowMod(**kwargs))
 
     def _clear_all_flows_and_restore_table_miss(self):
-        """Remove regras antigas de TODOS os switches e reinstala imediatamente o table-miss (priority=0)."""
+        """
+        Remove todas as regras antigas de TODOS os switches conectados (`OFPFC_DELETE`)
+        e reinstala imediatamente a regra `table-miss` (prioridade 0) em cada um deles.
+        Garante que nenhum pacote fique preso em rotas obsoletas após uma falha de enlace.
+        """
         for sw_dp in list(self.switches.values()):
             parser = sw_dp.ofproto_parser
             ofp = sw_dp.ofproto
@@ -192,17 +249,22 @@ class TopoDiscover(app_manager.RyuApp):
             sw_dp.send_msg(flow_mod)
             self._install_table_miss(sw_dp)
 
-    # ---------------------------------------------------------
-    # Aprendizado de Hosts
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 5. APRENDIZADO DE HOSTS (EDGE PORTS)
+    # ==========================================================================
 
-    def _switch_link_ports(self):
+    def _switch_link_ports(self) -> set:
+        """Retorna o conjunto de pares `(dpid, port_no)` usados em enlaces internos entre switches."""
         ports = set()
         for u, v, data in self.net.edges(data=True):
             ports.add((u, data.get("port")))
         return ports
 
-    def _learn_host(self, ip, mac, dpid, port):
+    def _learn_host(self, ip: str, mac: str, dpid: int, port: int):
+        """
+        Associa o endereço IP e MAC de um host à porta de borda do switch onde ele está conectado.
+        Ignora portas internas entre switches para não sobrescrever a localização real do host.
+        """
         if not ip or ip == "0.0.0.0":
             return
 
@@ -224,23 +286,29 @@ class TopoDiscover(app_manager.RyuApp):
                 ip, mac, dpid, port,
             )
 
-    # ---------------------------------------------------------
-    # Encaminhamento Unicast e Broadcast (Flooding Seguro)
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 6. ENCAMINHAMENTO UNICAST E FLOODING SEGURO (SPANNING TREE)
+    # ==========================================================================
 
-    def _route_actions(self, dpid, dst_ip, dst_host):
+    def _route_actions(self, dpid: int, dst_ip: str, dst_host: dict) -> list:
+        """
+        Determina a ação de saída para um pacote unicast destinado a um host conhecido
+        e instala a regra correspondente (prioridade 20) na tabela de fluxos do switch atual.
+        """
         dp = self.switches.get(dpid)
         if dp is None:
             return []
 
         parser = dp.ofproto_parser
 
+        # Caso 1: O host de destino está diretamente conectado a este switch
         if dpid == dst_host["dpid"]:
             actions = [parser.OFPActionOutput(dst_host["port"])]
             match = parser.OFPMatch(eth_dst=dst_host["mac"])
             self._add_flow(dp, 20, match, actions)
             return actions
 
+        # Caso 2: Calcula a rota até o switch de destino e encaminha para o próximo salto (next-hop)
         path = self.find_route(dpid, dst_host["dpid"], self.routing)
         if not path or len(path) < 2:
             return []
@@ -254,7 +322,12 @@ class TopoDiscover(app_manager.RyuApp):
 
         return actions
 
-    def _flood_actions(self, dpid, in_port):
+    def _flood_actions(self, dpid: int, in_port: int) -> list:
+        """
+        Calcula as portas de saída para inundação (flooding) de quadros ARP ou destino desconhecido.
+        Restringe o envio entre switches apenas às arestas pertencentes a uma Árvore Geradora Mínima
+        (Minimum Spanning Tree), prevenindo loops infinitos em topologias com ciclos (como Torus).
+        """
         dp = self.switches.get(dpid)
         if dp is None or not self.net.nodes:
             return []
@@ -262,6 +335,7 @@ class TopoDiscover(app_manager.RyuApp):
         parser = dp.ofproto_parser
         ofp = dp.ofproto
 
+        # Constrói a Árvore Geradora Mínima sobre o grafo não direcionado
         undirected_net = self.net.to_undirected()
         st_edges = set()
         if len(undirected_net) > 0:
@@ -281,6 +355,7 @@ class TopoDiscover(app_manager.RyuApp):
             if port in (in_port, ofp.OFPP_LOCAL, ofp.OFPP_CONTROLLER):
                 continue
 
+            # Verifica se a porta conecta este switch a outro switch
             is_link_port = False
             is_st_port = False
             for u, v, data in self.net.edges(data=True):
@@ -290,6 +365,7 @@ class TopoDiscover(app_manager.RyuApp):
                         is_st_port = True
                     break
 
+            # Bloqueia portas entre switches que não fazem parte da Spanning Tree
             if is_link_port and not is_st_port:
                 continue
 
@@ -297,12 +373,18 @@ class TopoDiscover(app_manager.RyuApp):
 
         return actions
 
-    # ---------------------------------------------------------
-    # Tratamento de Pacotes (PacketIn)
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 7. TRATAMENTO DE PACOTES RECEBIDOS (PACKET-IN)
+    # ==========================================================================
 
     @set_ev_cls(ofp_event.EventOFPPacketIn, MAIN_DISPATCHER)
     def packet_in_handler(self, ev):
+        """
+        Processa pacotes enviados ao controlador pela regra table-miss:
+        1. Ignora quadros LLDP usados internamente pela descoberta de topologia.
+        2. Extrai o IP/MAC de origem (via ARP ou IPv4) para registrar a localização do host.
+        3. Encaminha via rota unicast (se destino conhecido) ou via flooding seguro (Spanning Tree).
+        """
         msg = ev.msg
         dp = msg.datapath
         dpid = dp.id
@@ -314,6 +396,7 @@ class TopoDiscover(app_manager.RyuApp):
         if eth is None:
             return
 
+        # Ignora pacotes LLDP do próprio Ryu
         if eth.ethertype == ether_types.ETH_TYPE_LLDP:
             return
 
@@ -326,6 +409,7 @@ class TopoDiscover(app_manager.RyuApp):
         elif ip_pkt:
             src_ip = ip_pkt.src
 
+        # Atualiza o registro do host remetente
         self._learn_host(src_ip, eth.src, dpid, in_port)
 
         dst_ip = self.mac_to_host.get(eth.dst)
@@ -351,12 +435,16 @@ class TopoDiscover(app_manager.RyuApp):
 
         dp.send_msg(out)
 
-    # ---------------------------------------------------------
-    # Tratamento Dinâmico de Falhas
-    # ---------------------------------------------------------
+    # ==========================================================================
+    # 8. TRATAMENTO DINÂMICO DE FALHAS E RECONVERGÊNCIA
+    # ==========================================================================
 
     @set_ev_cls(event.EventLinkDelete)
     def link_delete_handler(self, ev):
+        """
+        Trata a remoção de um enlace detectada pelo módulo de topologia LLDP,
+        removendo a aresta do grafo e limpando as tabelas de fluxo dos switches.
+        """
         src = ev.link.src
         dst = ev.link.dst
         self.logger.warning(
@@ -369,6 +457,11 @@ class TopoDiscover(app_manager.RyuApp):
 
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def port_status_handler(self, ev):
+        """
+        Detecta imediatamente a queda física/administrativa de uma porta (`OFPPS_LINK_DOWN`),
+        remove ambas as direções do enlace afetado no grafo NetworkX e força o recálculo
+        global das rotas em todos os switches da rede.
+        """
         msg = ev.msg
         dp = msg.datapath
         ofp = dp.ofproto
@@ -380,12 +473,14 @@ class TopoDiscover(app_manager.RyuApp):
                     "FALHA DETECTADA: Switch s%s - Porta %s caiu (Link Down)!",
                     dp.id, port_no
                 )
+                # Remove imediatamente do grafo as duas direções da aresta vinculada à porta caída
                 for u, v, data in list(self.net.edges(data=True)):
                     if u == dp.id and data.get("port") == port_no:
                         self.net.remove_edge(u, v)
                         if self.net.has_edge(v, u):
                             self.net.remove_edge(v, u)
 
+                # Limpa regras antigas em todos os switches e restaura o table-miss (prioridade 0)
                 self._clear_all_flows_and_restore_table_miss()
                 self.logger.info(
                     "Regras antigas limpas e table-miss restaurado em TODOS os switches."
