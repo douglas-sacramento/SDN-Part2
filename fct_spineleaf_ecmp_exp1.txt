@@ -1,4 +1,0 @@
-Topology: spineleaf
-Routing: ecmp
-Exp: 1
-FCT_Seconds: 19.6686

@@ -1,1 +1,10 @@
+# Cache e ambiente Python
 __pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+
+# Arquivos temporários de sistema/editor
+.DS_Store
+*.swp

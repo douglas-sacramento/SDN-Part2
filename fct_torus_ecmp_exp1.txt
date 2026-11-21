@@ -1,4 +1,0 @@
-Topology: torus
-Routing: ecmp
-Exp: 1
-FCT_Seconds: 29.9795

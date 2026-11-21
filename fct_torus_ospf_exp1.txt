@@ -1,4 +1,0 @@
-Topology: torus
-Routing: ospf
-Exp: 1
-FCT_Seconds: 29.0177
