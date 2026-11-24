@@ -1,9 +1,9 @@
 ## Experimentos SDN: Descoberta de Topologia, Roteamento OSPF/ECMP e Tolerância a Falhas
 
-Mestrado em Computação Aplicada
-Disciplina redes de computadores
-Prof. Cristina Dominici
-Alunos: Douglas Sarmento e Márcio Castelo Branco
+- Mestrado em Computação Aplicada
+- Disciplina redes de computadores
+- Prof. Cristina Dominici
+- Alunos: Douglas Sarmento e Márcio Castelo Branco
 
 
 Este repositório contém a implementação e a automação de experimentos em **Redes Definidas por Software (SDN)** utilizando **Mininet**, **Open vSwitch (OpenFlow 1.3)** e o controlador **Ryu**. O objetivo é avaliar o desempenho de encaminhamento (**Flow Completion Time — FCT** e **distribuição de vazão por switch**) comparando os algoritmos **OSPF** e **ECMP** nas topologias **Torus** e **Spine-Leaf**, tanto em operação normal quanto sob falha dinâmica de enlace.
