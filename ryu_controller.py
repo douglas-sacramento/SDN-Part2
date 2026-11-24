@@ -14,8 +14,8 @@ Arquitetura e funcionalidades principais:
 4. Flooding Seguro sem Loops: Utiliza uma Árvore Geradora Mínima (`nx.minimum_spanning_tree`)
    para inundar pacotes ARP/Broadcast sem provocar tempestades de broadcast em topologias cíclicas (Torus).
 5. Reconvergência Rápida a Falhas: Monitora `EventOFPPortStatus` (`OFPPS_LINK_DOWN`) e `EventLinkDelete`,
-   remove imediatamente as arestas afetadas do grafo, limpa as regras antigas de todos os switches e
-   restaura a regra `table-miss` (prioridade 0) para recalcular rotas sem perda permanente de tráfego.
+   remove imediatamente as arestas afetadas do grafo, limpa as regras antigas de todos os switches,
+   restaura a regra `table-miss` (prioridade 0) e registra no log a nova tabela de rotas calculada.
 """
 
 import os
@@ -140,6 +140,7 @@ class TopoDiscover(app_manager.RyuApp):
             )
 
             self.print_full_topology()
+            self.log_routing_table(contexto="ANTES DA FALHA / TOPOLOGIA ATUAL")
 
         except Exception as exc:
             self.logger.debug("Topologia ainda não disponível: %s", exc)
@@ -151,7 +152,7 @@ class TopoDiscover(app_manager.RyuApp):
             self.logger.info("Enlace: s%s -> s%s (porta %s)", u, v, data.get("port"))
 
     # ==========================================================================
-    # 3. ALGORITMOS DE ROTEAMENTO (OSPF E ECMP)
+    # 3. ALGORITMOS DE ROTEAMENTO (OSPF E ECMP) E LOG DE ROTAS
     # ==========================================================================
 
     def get_route_ecmp(self, switch_in: str, switch_out: str, paths: list):
@@ -200,6 +201,37 @@ class TopoDiscover(app_manager.RyuApp):
             return None
 
         return None
+
+    def log_routing_table(self, contexto: str = "ATUAL"):
+        """
+        Percorre todos os switches do grafo (`self.net`) e registra no log
+        a rota calculada e a porta de saída para cada switch de destino.
+        """
+        nodes = sorted(self.net.nodes())
+        if len(nodes) < 2:
+            return
+
+        self.logger.info("==========================================================")
+        self.logger.info(" TABELA DE ROTAS (%s) | Modo: %s", contexto, self.routing.upper())
+        self.logger.info("==========================================================")
+
+        for src in nodes:
+            rotas_sw = []
+            for dst in nodes:
+                if src == dst:
+                    continue
+                path = self.find_route(src, dst, self.routing)
+                if path and len(path) >= 2:
+                    next_hop = path[1]
+                    out_port = self.net[src][next_hop].get("port")
+                    caminho_str = " -> ".join(f"s{n}" for n in path)
+                    rotas_sw.append(f"  para s{dst}: [{caminho_str}] (sai pela porta {out_port})")
+                else:
+                    rotas_sw.append(f"  para s{dst}: [SEM ROTA]")
+
+            self.logger.info("Switch s%s:\n%s", src, "\n".join(rotas_sw))
+
+        self.logger.info("==========================================================")
 
     # ==========================================================================
     # 4. GERENCIAMENTO DE REGRAS OPENFLOW (FLOWMOD)
@@ -443,7 +475,7 @@ class TopoDiscover(app_manager.RyuApp):
     def link_delete_handler(self, ev):
         """
         Trata a remoção de um enlace detectada pelo módulo de topologia LLDP,
-        removendo a aresta do grafo e limpando as tabelas de fluxo dos switches.
+        removendo a aresta do grafo, limpando as tabelas de fluxo e registrando as novas rotas.
         """
         src = ev.link.src
         dst = ev.link.dst
@@ -454,13 +486,14 @@ class TopoDiscover(app_manager.RyuApp):
         if self.net.has_edge(src.dpid, dst.dpid):
             self.net.remove_edge(src.dpid, dst.dpid)
         self._clear_all_flows_and_restore_table_miss()
+        self.log_routing_table(contexto=f"APÓS EventLinkDelete s{src.dpid} -> s{dst.dpid}")
 
     @set_ev_cls(ofp_event.EventOFPPortStatus, MAIN_DISPATCHER)
     def port_status_handler(self, ev):
         """
         Detecta imediatamente a queda física/administrativa de uma porta (`OFPPS_LINK_DOWN`),
-        remove ambas as direções do enlace afetado no grafo NetworkX e força o recálculo
-        global das rotas em todos os switches da rede.
+        remove ambas as direções do enlace afetado no grafo NetworkX, força o recálculo
+        global das rotas em todos os switches e registra a nova tabela de rotas no log.
         """
         msg = ev.msg
         dp = msg.datapath
@@ -485,3 +518,4 @@ class TopoDiscover(app_manager.RyuApp):
                 self.logger.info(
                     "Regras antigas limpas e table-miss restaurado em TODOS os switches."
                 )
+                self.log_routing_table(contexto=f"APÓS QUEDA NA PORTA {port_no} DE s{dp.id}")
