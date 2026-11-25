@@ -456,8 +456,12 @@ def executar_experimento():
         for src_name, src_host in host_objs.items():
             for dst_name, dst_host in host_objs.items():
                 if src_name != dst_name:
+                    # src_host.cmd(
+                    #     "iperf -c %s -p 5001 -n %s >/tmp/iperf-client-%s-%s.log 2>&1 &"
+                    #     % (dst_host.IP(), args.size, src_name, dst_name)
+                    # )
                     src_host.cmd(
-                        "iperf -c %s -p 5001 -n %s >/tmp/iperf-client-%s-%s.log 2>&1 &"
+                        "iperf -c %s -p 5001 -P 4 -n %s >/tmp/iperf-client-%s-%s.log 2>&1 &"
                         % (dst_host.IP(), args.size, src_name, dst_name)
                     )
 
