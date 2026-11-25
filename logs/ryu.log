@@ -307,7 +307,7 @@ Switch s5:
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
 ==========================================================
-Discovery (NetworkX): 5 nós, 7 enlaces direcionados
+Discovery (NetworkX): 5 nós, 8 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -316,6 +316,7 @@ Enlace: s2 -> s3 (porta 3)
 Enlace: s3 -> s2 (porta 2)
 Enlace: s4 -> s1 (porta 3)
 Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
 ==========================================================
  TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
 ==========================================================
@@ -347,7 +348,7 @@ Switch s5:
   para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s5 -> s2 -> s1 -> s4] (sai pela porta 4)
+  para s4: [s5 -> s4] (sai pela porta 2)
 ==========================================================
 Discovery (NetworkX): 5 nós, 8 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5]
@@ -387,47 +388,7 @@ Switch s4:
   para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [SEM ROTA]
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s5 -> s4] (sai pela porta 2)
-==========================================================
-Discovery (NetworkX): 5 nós, 9 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-==========================================================
- TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s2 -> s5 -> s4] (sai pela porta 2)
-  para s5: [s3 -> s2 -> s5] (sai pela porta 2)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
-  para s5: [s4 -> s1 -> s2 -> s5] (sai pela porta 3)
-Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -451,11 +412,11 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -464,11 +425,52 @@ Switch s3:
   para s5: [s3 -> s2 -> s5] (sai pela porta 2)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s5] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s5 -> s4] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 5 nós, 10 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s2 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s3 -> s2 -> s5] (sai pela porta 2)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s5: [s4 -> s5] (sai pela porta 2)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -493,11 +495,11 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -506,11 +508,11 @@ Switch s3:
   para s5: [s3 -> s2 -> s5] (sai pela porta 2)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s5] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -535,13 +537,13 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s2 e s6
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s3 e s6
@@ -554,13 +556,13 @@ Switch s3:
 Caminho não encontrado entre s4 e s6
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s5 e s6
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -599,13 +601,13 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s2 e s6
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s3 e s6
@@ -618,13 +620,72 @@ Switch s3:
 Caminho não encontrado entre s4 e s6
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [SEM ROTA]
 Caminho não encontrado entre s5 e s6
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s5 -> s4] (sai pela porta 2)
+  para s6: [SEM ROTA]
+Switch s6:
+  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s6 -> s5] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 6 nós, 12 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Caminho não encontrado entre s1 e s6
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [SEM ROTA]
+Caminho não encontrado entre s2 e s6
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [SEM ROTA]
+Caminho não encontrado entre s3 e s6
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s2 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s3 -> s2 -> s5] (sai pela porta 2)
+  para s6: [SEM ROTA]
+Caminho não encontrado entre s4 e s6
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s5: [s4 -> s5] (sai pela porta 2)
+  para s6: [SEM ROTA]
+Caminho não encontrado entre s5 e s6
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -659,14 +720,14 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
@@ -675,12 +736,12 @@ Switch s3:
   para s6: [s3 -> s6] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -715,14 +776,14 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
@@ -731,68 +792,12 @@ Switch s3:
   para s6: [s3 -> s6] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s5 -> s4] (sai pela porta 2)
-  para s6: [s5 -> s6] (sai pela porta 3)
-Switch s6:
-  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
-  para s5: [s6 -> s5] (sai pela porta 2)
-==========================================================
-Discovery (NetworkX): 6 nós, 14 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-==========================================================
- TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
-  para s5: [s4 -> s5] (sai pela porta 2)
-  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
-Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -828,14 +833,14 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
@@ -844,12 +849,12 @@ Switch s3:
   para s6: [s3 -> s6] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -885,16 +890,16 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s2 e s7
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s3 e s7
 Switch s3:
@@ -907,14 +912,14 @@ Switch s3:
 Caminho não encontrado entre s4 e s7
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s5 e s7
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -967,16 +972,16 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s2 e s7
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s3 e s7
 Switch s3:
@@ -989,14 +994,14 @@ Switch s3:
 Caminho não encontrado entre s4 e s7
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [SEM ROTA]
 Caminho não encontrado entre s5 e s7
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1012,8 +1017,8 @@ Switch s6:
   para s7: [SEM ROTA]
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -1043,15 +1048,15 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -1059,16 +1064,16 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1083,8 +1088,8 @@ Switch s6:
   para s7: [s6 -> s5 -> s4 -> s7] (sai pela porta 2)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -1115,15 +1120,15 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -1131,16 +1136,16 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1155,8 +1160,8 @@ Switch s6:
   para s7: [s6 -> s5 -> s4 -> s7] (sai pela porta 2)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -1187,17 +1192,17 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s2 e s8
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s3 e s8
@@ -1207,20 +1212,20 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s4 e s8
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s5 e s8
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1239,8 +1244,8 @@ Switch s6:
 Caminho não encontrado entre s7 e s8
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -1261,7 +1266,7 @@ Switch s8:
   para s6: [SEM ROTA]
   para s7: [SEM ROTA]
 ==========================================================
-Discovery (NetworkX): 8 nós, 17 enlaces direcionados
+Discovery (NetworkX): 8 nós, 18 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -1279,6 +1284,7 @@ Enlace: s5 -> s6 (porta 3)
 Enlace: s6 -> s3 (porta 3)
 Enlace: s6 -> s5 (porta 2)
 Enlace: s7 -> s4 (porta 3)
+Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
 ==========================================================
  TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
@@ -1288,17 +1294,17 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s2 e s8
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s3 e s8
@@ -1308,20 +1314,20 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s4 e s8
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [SEM ROTA]
 Caminho não encontrado entre s5 e s8
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1340,195 +1346,17 @@ Switch s6:
 Caminho não encontrado entre s7 e s8
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
   para s8: [SEM ROTA]
 Switch s8:
-  para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s8 -> s7 -> s4 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s8 -> s7 -> s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s8 -> s7 -> s4 -> s5] (sai pela porta 2)
-  para s6: [s8 -> s7 -> s4 -> s5 -> s6] (sai pela porta 2)
-  para s7: [s8 -> s7] (sai pela porta 2)
-==========================================================
-Discovery (NetworkX): 8 nós, 19 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s7 -> s8 (porta 2)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-==========================================================
- TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
-  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s2 -> s1 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s5 -> s4 -> s7 -> s8] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
-  para s5: [s4 -> s5] (sai pela porta 2)
-  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s5 -> s4] (sai pela porta 2)
-  para s6: [s5 -> s6] (sai pela porta 3)
-  para s7: [s5 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s5 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s6:
-  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
-  para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s5 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s6 -> s5 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s7:
-  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
-  para s8: [s7 -> s8] (sai pela porta 2)
-Switch s8:
-  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
-  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
-  para s7: [s8 -> s7] (sai pela porta 2)
-==========================================================
-Discovery (NetworkX): 8 nós, 19 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s7 -> s8 (porta 2)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-==========================================================
- TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
-  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s2 -> s1 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s5 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s5 -> s4 -> s7 -> s8] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
-  para s5: [s4 -> s5] (sai pela porta 2)
-  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s5 -> s4] (sai pela porta 2)
-  para s6: [s5 -> s6] (sai pela porta 3)
-  para s7: [s5 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s5 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s6:
-  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
-  para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s5 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s6 -> s5 -> s4 -> s7 -> s8] (sai pela porta 2)
-Switch s7:
-  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
-  para s8: [s7 -> s8] (sai pela porta 2)
-Switch s8:
-  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
-  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
@@ -1562,17 +1390,17 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -1580,18 +1408,18 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
+  para s7: [s3 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
   para s8: [s3 -> s6 -> s5 -> s8] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1612,13 +1440,193 @@ Switch s7:
   para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
+  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
+  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s6 -> s5 -> s8] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s5: [s4 -> s5] (sai pela porta 2)
+  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s4 -> s7] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s4] (sai pela porta 2)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s6 -> s5] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s8: [s7 -> s8] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 8 nós, 20 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
+  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s6 -> s5 -> s8] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s5: [s4 -> s5] (sai pela porta 2)
+  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s4 -> s7] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s4] (sai pela porta 2)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s6 -> s5] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s8: [s7 -> s8] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
@@ -1653,17 +1661,17 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
@@ -1671,18 +1679,18 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
+  para s7: [s3 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
   para s8: [s3 -> s6 -> s5 -> s8] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1703,18 +1711,18 @@ Switch s7:
   para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
+  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
 ==========================================================
-Discovery (NetworkX): 9 nós, 20 enlaces direcionados
+Discovery (NetworkX): 9 nós, 22 enlaces direcionados
 Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
 Enlace: s1 -> s2 (porta 2)
 Enlace: s1 -> s4 (porta 3)
@@ -1736,6 +1744,8 @@ Enlace: s7 -> s4 (porta 3)
 Enlace: s7 -> s8 (porta 2)
 Enlace: s8 -> s5 (porta 4)
 Enlace: s8 -> s7 (porta 2)
+Enlace: s9 -> s6 (porta 3)
+Enlace: s9 -> s8 (porta 2)
 ==========================================================
  TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
 ==========================================================
@@ -1744,19 +1754,19 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
   para s9: [SEM ROTA]
 Caminho não encontrado entre s2 e s9
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
   para s9: [SEM ROTA]
 Caminho não encontrado entre s3 e s9
@@ -1766,22 +1776,22 @@ Switch s3:
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s2 -> s5 -> s4 -> s7] (sai pela porta 2)
+  para s7: [s3 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
   para s8: [s3 -> s6 -> s5 -> s8] (sai pela porta 3)
   para s9: [SEM ROTA]
 Caminho não encontrado entre s4 e s9
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
   para s9: [SEM ROTA]
 Caminho não encontrado entre s5 e s9
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -1806,144 +1816,25 @@ Switch s7:
   para s3: [s7 -> s4 -> s5 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
+  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [SEM ROTA]
 Caminho não encontrado entre s8 e s9
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
   para s9: [SEM ROTA]
-Caminho não encontrado entre s9 e s1
-Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s3
-Caminho não encontrado entre s9 e s4
-Caminho não encontrado entre s9 e s5
-Caminho não encontrado entre s9 e s6
-Caminho não encontrado entre s9 e s7
-Caminho não encontrado entre s9 e s8
 Switch s9:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-==========================================================
-Discovery (NetworkX): 9 nós, 24 enlaces direcionados
-Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
-Enlace: s1 -> s2 (porta 2)
-Enlace: s1 -> s4 (porta 3)
-Enlace: s2 -> s1 (porta 2)
-Enlace: s2 -> s3 (porta 3)
-Enlace: s2 -> s5 (porta 4)
-Enlace: s3 -> s2 (porta 2)
-Enlace: s3 -> s6 (porta 3)
-Enlace: s4 -> s1 (porta 3)
-Enlace: s4 -> s5 (porta 2)
-Enlace: s4 -> s7 (porta 4)
-Enlace: s5 -> s2 (porta 4)
-Enlace: s5 -> s4 (porta 2)
-Enlace: s5 -> s6 (porta 3)
-Enlace: s5 -> s8 (porta 5)
-Enlace: s6 -> s3 (porta 3)
-Enlace: s6 -> s5 (porta 2)
-Enlace: s6 -> s9 (porta 4)
-Enlace: s7 -> s4 (porta 3)
-Enlace: s7 -> s8 (porta 2)
-Enlace: s8 -> s5 (porta 4)
-Enlace: s8 -> s7 (porta 2)
-Enlace: s8 -> s9 (porta 3)
-Enlace: s9 -> s6 (porta 3)
-Enlace: s9 -> s8 (porta 2)
-==========================================================
- TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
-  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
-  para s9: [s1 -> s4 -> s5 -> s8 -> s9] (sai pela porta 3)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
-  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
-  para s5: [s4 -> s5] (sai pela porta 2)
-  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
-Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s5 -> s4] (sai pela porta 2)
-  para s6: [s5 -> s6] (sai pela porta 3)
-  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
-Switch s6:
-  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
-  para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
-  para s9: [s6 -> s9] (sai pela porta 4)
-Switch s7:
-  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
-  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
-  para s8: [s7 -> s8] (sai pela porta 2)
-  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
-Switch s8:
-  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
-  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
-  para s7: [s8 -> s7] (sai pela porta 2)
-  para s9: [s8 -> s9] (sai pela porta 3)
-Switch s9:
-  para s1: [s9 -> s6 -> s5 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -1981,40 +1872,40 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
-  para s9: [s1 -> s4 -> s5 -> s8 -> s9] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s4 -> s5 -> s6 -> s9] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -2028,13 +1919,13 @@ Switch s6:
   para s3: [s6 -> s3] (sai pela porta 3)
   para s4: [s6 -> s5 -> s4] (sai pela porta 2)
   para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -2043,18 +1934,18 @@ Switch s7:
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
-  para s1: [s9 -> s6 -> s5 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2092,40 +1983,40 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
-  para s9: [s1 -> s4 -> s5 -> s8 -> s9] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s4 -> s5 -> s6 -> s9] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -2139,13 +2030,13 @@ Switch s6:
   para s3: [s6 -> s3] (sai pela porta 3)
   para s4: [s6 -> s5 -> s4] (sai pela porta 2)
   para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -2154,18 +2045,18 @@ Switch s7:
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
-  para s1: [s9 -> s6 -> s5 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2203,40 +2094,40 @@ Switch s1:
   para s2: [s1 -> s2] (sai pela porta 2)
   para s3: [s1 -> s2 -> s3] (sai pela porta 2)
   para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s5 -> s8] (sai pela porta 3)
-  para s9: [s1 -> s4 -> s5 -> s8 -> s9] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s5 -> s4] (sai pela porta 4)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s5: [s4 -> s5] (sai pela porta 2)
   para s6: [s4 -> s5 -> s6] (sai pela porta 2)
   para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s4 -> s5 -> s6 -> s9] (sai pela porta 2)
 Switch s5:
-  para s1: [s5 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s5 -> s4] (sai pela porta 2)
@@ -2250,13 +2141,13 @@ Switch s6:
   para s3: [s6 -> s3] (sai pela porta 3)
   para s4: [s6 -> s5 -> s4] (sai pela porta 2)
   para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s4 -> s5] (sai pela porta 3)
   para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
@@ -2265,18 +2156,129 @@ Switch s7:
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s5 -> s4] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
   para s7: [s8 -> s7] (sai pela porta 2)
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
-  para s1: [s9 -> s6 -> s5 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s6 -> s5 -> s4] (sai pela porta 3)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s9 -> s8] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 9 nós, 24 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s5 (porta 2)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s4 (porta 2)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s6 -> s9 (porta 4)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+Enlace: s8 -> s9 (porta 3)
+Enlace: s9 -> s6 (porta 3)
+Enlace: s9 -> s8 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s2 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s4 -> s7] (sai pela porta 4)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s6 -> s5 -> s4] (sai pela porta 3)
+  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s4 -> s5 -> s2 -> s3] (sai pela porta 2)
+  para s5: [s4 -> s5] (sai pela porta 2)
+  para s6: [s4 -> s5 -> s6] (sai pela porta 2)
+  para s7: [s4 -> s7] (sai pela porta 4)
+  para s8: [s4 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s4 -> s5 -> s6 -> s9] (sai pela porta 2)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s4] (sai pela porta 2)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s5 -> s4] (sai pela porta 2)
+  para s5: [s6 -> s5] (sai pela porta 2)
+  para s7: [s6 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
+  para s9: [s6 -> s9] (sai pela porta 4)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s4 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s4 -> s5] (sai pela porta 3)
+  para s6: [s7 -> s4 -> s5 -> s6] (sai pela porta 3)
+  para s8: [s7 -> s8] (sai pela porta 2)
+  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+  para s9: [s8 -> s9] (sai pela porta 3)
+Switch s9:
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2302,32 +2304,32 @@ Switch s1:
   para s5: [s1 -> s2 -> s5] (sai pela porta 2)
   para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
   para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s1 -> s2] (sai pela porta 3)
   para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2344,24 +2346,24 @@ Switch s6:
   para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
   para s2: [s6 -> s3 -> s2] (sai pela porta 3)
   para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2369,97 +2371,10 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s9 -> s6] (sai pela porta 3)
-  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
-  para s8: [s9 -> s8] (sai pela porta 2)
-==========================================================
-FALHA DETECTADA: Switch s5 - Porta 2 caiu (Link Down)!
-Regras antigas limpas e table-miss restaurado em TODOS os switches.
-==========================================================
- TABELA DE ROTAS (APÓS QUEDA NA PORTA 2 DE s5) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s2] (sai pela porta 2)
-  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
-  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
-  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
-  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
-Switch s2:
-  para s1: [s2 -> s1] (sai pela porta 2)
-  para s3: [s2 -> s3] (sai pela porta 3)
-  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
-  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
-  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
-Switch s3:
-  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s3 -> s2] (sai pela porta 2)
-  para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
-  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
-  para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
-Switch s5:
-  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s5 -> s8 -> s7 -> s4] (sai pela porta 5)
-  para s6: [s5 -> s6] (sai pela porta 3)
-  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
-Switch s6:
-  para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
-  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
-  para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
-  para s9: [s6 -> s9] (sai pela porta 4)
-Switch s7:
-  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
-  para s8: [s7 -> s8] (sai pela porta 2)
-  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
-Switch s8:
-  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
-  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
-  para s7: [s8 -> s7] (sai pela porta 2)
-  para s9: [s8 -> s9] (sai pela porta 3)
-Switch s9:
-  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
-  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2476,32 +2391,32 @@ Switch s1:
   para s5: [s1 -> s2 -> s5] (sai pela porta 2)
   para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
   para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s1 -> s2] (sai pela porta 3)
   para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2518,24 +2433,24 @@ Switch s6:
   para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
   para s2: [s6 -> s3 -> s2] (sai pela porta 3)
   para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2543,10 +2458,10 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2562,32 +2477,32 @@ Switch s1:
   para s5: [s1 -> s2 -> s5] (sai pela porta 2)
   para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
   para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s1 -> s2] (sai pela porta 3)
   para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2604,24 +2519,24 @@ Switch s6:
   para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
   para s2: [s6 -> s3 -> s2] (sai pela porta 3)
   para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2629,10 +2544,10 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2648,32 +2563,32 @@ Switch s1:
   para s5: [s1 -> s2 -> s5] (sai pela porta 2)
   para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
   para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
   para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
 Switch s2:
   para s1: [s2 -> s1] (sai pela porta 2)
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s1 -> s2] (sai pela porta 3)
   para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2690,24 +2605,24 @@ Switch s6:
   para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
   para s2: [s6 -> s3 -> s2] (sai pela porta 3)
   para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s4 -> s1 -> s2] (sai pela porta 3)
-  para s3: [s7 -> s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2715,10 +2630,205 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s9 -> s8] (sai pela porta 2)
+==========================================================
+EventLinkDelete: enlace s4 (porta 4) -> s7 (porta 3) removido
+==========================================================
+ TABELA DE ROTAS (APÓS EventLinkDelete s4 -> s7) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s7: [s1 -> s2 -> s5 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s1 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s8 -> s7] (sai pela porta 4)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s5: [s4 -> s1 -> s2 -> s5] (sai pela porta 3)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
+  para s7: [s4 -> s1 -> s2 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s4 -> s1 -> s2 -> s5 -> s8] (sai pela porta 3)
+  para s9: [s4 -> s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 3)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s8 -> s7 -> s4] (sai pela porta 5)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
+  para s5: [s6 -> s5] (sai pela porta 2)
+  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
+  para s9: [s6 -> s9] (sai pela porta 4)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s8 -> s5] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
+  para s8: [s7 -> s8] (sai pela porta 2)
+  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+  para s9: [s8 -> s9] (sai pela porta 3)
+Switch s9:
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s9 -> s8] (sai pela porta 2)
+==========================================================
+Discovery (NetworkX): 9 nós, 22 enlaces direcionados
+Switches no grafo: [1, 2, 3, 4, 5, 6, 7, 8, 9]
+Enlace: s1 -> s2 (porta 2)
+Enlace: s1 -> s4 (porta 3)
+Enlace: s2 -> s1 (porta 2)
+Enlace: s2 -> s3 (porta 3)
+Enlace: s2 -> s5 (porta 4)
+Enlace: s3 -> s2 (porta 2)
+Enlace: s3 -> s6 (porta 3)
+Enlace: s4 -> s1 (porta 3)
+Enlace: s4 -> s7 (porta 4)
+Enlace: s5 -> s2 (porta 4)
+Enlace: s5 -> s6 (porta 3)
+Enlace: s5 -> s8 (porta 5)
+Enlace: s6 -> s3 (porta 3)
+Enlace: s6 -> s5 (porta 2)
+Enlace: s6 -> s9 (porta 4)
+Enlace: s7 -> s4 (porta 3)
+Enlace: s7 -> s8 (porta 2)
+Enlace: s8 -> s5 (porta 4)
+Enlace: s8 -> s7 (porta 2)
+Enlace: s8 -> s9 (porta 3)
+Enlace: s9 -> s6 (porta 3)
+Enlace: s9 -> s8 (porta 2)
+==========================================================
+ TABELA DE ROTAS (ANTES DA FALHA / TOPOLOGIA ATUAL) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s2] (sai pela porta 2)
+  para s3: [s1 -> s2 -> s3] (sai pela porta 2)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s2 -> s5] (sai pela porta 2)
+  para s6: [s1 -> s2 -> s3 -> s6] (sai pela porta 2)
+  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s2 -> s3 -> s6 -> s9] (sai pela porta 2)
+Switch s2:
+  para s1: [s2 -> s1] (sai pela porta 2)
+  para s3: [s2 -> s3] (sai pela porta 3)
+  para s4: [s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
+Switch s3:
+  para s1: [s3 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s3 -> s2] (sai pela porta 2)
+  para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s1 -> s2] (sai pela porta 3)
+  para s3: [s4 -> s1 -> s2 -> s3] (sai pela porta 3)
+  para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
+  para s6: [s4 -> s1 -> s2 -> s5 -> s6] (sai pela porta 3)
+  para s7: [s4 -> s7] (sai pela porta 4)
+  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
+  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
+Switch s5:
+  para s1: [s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s8 -> s7 -> s4] (sai pela porta 5)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
+  para s2: [s6 -> s3 -> s2] (sai pela porta 3)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
+  para s5: [s6 -> s5] (sai pela porta 2)
+  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
+  para s9: [s6 -> s9] (sai pela porta 4)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s8 -> s5] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
+  para s8: [s7 -> s8] (sai pela porta 2)
+  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+  para s9: [s8 -> s9] (sai pela porta 3)
+Switch s9:
+  para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2729,7 +2839,7 @@ EventLinkDelete: enlace s1 (porta 2) -> s2 (porta 2) removido
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -2741,25 +2851,25 @@ Switch s2:
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s1 -> s4 -> s7] (sai pela porta 2)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s2 -> s1] (sai pela porta 2)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s2 -> s1 -> s4] (sai pela porta 2)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s2 -> s1 -> s4 -> s7] (sai pela porta 2)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2776,24 +2886,24 @@ Switch s6:
   para s1: [s6 -> s5 -> s2 -> s1] (sai pela porta 2)
   para s2: [s6 -> s3 -> s2] (sai pela porta 3)
   para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s5 -> s2 -> s1 -> s4] (sai pela porta 2)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s5 -> s2 -> s1] (sai pela porta 4)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2801,10 +2911,10 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s6 -> s3 -> s2 -> s1] (sai pela porta 3)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2815,7 +2925,7 @@ EventLinkDelete: enlace s2 (porta 2) -> s1 (porta 2) removido
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -2827,25 +2937,25 @@ Switch s2:
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s5 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s5 -> s8 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
-  para s1: [s3 -> s2 -> s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 2)
+  para s1: [s3 -> s6 -> s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s3 -> s2] (sai pela porta 2)
   para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s2 -> s5 -> s8] (sai pela porta 2)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2865,21 +2975,21 @@ Switch s6:
   para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2887,10 +2997,10 @@ Switch s8:
   para s9: [s8 -> s9] (sai pela porta 3)
 Switch s9:
   para s1: [s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s9 -> s6 -> s3 -> s2] (sai pela porta 3)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2901,7 +3011,7 @@ EventLinkDelete: enlace s3 (porta 2) -> s2 (porta 3) removido
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -2913,25 +3023,25 @@ Switch s2:
   para s3: [s2 -> s3] (sai pela porta 3)
   para s4: [s2 -> s5 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s3 -> s6] (sai pela porta 3)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
   para s7: [s2 -> s5 -> s8 -> s7] (sai pela porta 4)
   para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
+  para s9: [s2 -> s3 -> s6 -> s9] (sai pela porta 3)
 Switch s3:
   para s1: [s3 -> s6 -> s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s3 -> s6 -> s5 -> s2] (sai pela porta 3)
   para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
   para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -2951,21 +3061,21 @@ Switch s6:
   para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
   para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s2 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s8 -> s5 -> s2 -> s3] (sai pela porta 4)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -2976,7 +3086,7 @@ Switch s9:
   para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -2987,7 +3097,7 @@ EventLinkDelete: enlace s2 (porta 3) -> s3 (porta 2) removido
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -3009,15 +3119,15 @@ Switch s3:
   para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
   para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -3037,7 +3147,7 @@ Switch s6:
   para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
@@ -3045,13 +3155,13 @@ Switch s7:
   para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -3062,7 +3172,7 @@ Switch s9:
   para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -3074,7 +3184,7 @@ Regras antigas limpas e table-miss restaurado em TODOS os switches.
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -3096,15 +3206,15 @@ Switch s3:
   para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
   para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -3124,7 +3234,7 @@ Switch s6:
   para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
@@ -3132,13 +3242,13 @@ Switch s7:
   para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -3149,7 +3259,7 @@ Switch s9:
   para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
   para s6: [s9 -> s6] (sai pela porta 3)
   para s7: [s9 -> s8 -> s7] (sai pela porta 2)
   para s8: [s9 -> s8] (sai pela porta 2)
@@ -3161,7 +3271,7 @@ Regras antigas limpas e table-miss restaurado em TODOS os switches.
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
   para s4: [s1 -> s4] (sai pela porta 3)
   para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
   para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
@@ -3183,15 +3293,15 @@ Switch s3:
   para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
   para s5: [s3 -> s6 -> s5] (sai pela porta 3)
   para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s5 -> s8 -> s7] (sai pela porta 3)
   para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
   para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Switch s4:
   para s1: [s4 -> s1] (sai pela porta 3)
   para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
   para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
   para s7: [s4 -> s7] (sai pela porta 4)
   para s8: [s4 -> s7 -> s8] (sai pela porta 4)
   para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
@@ -3211,7 +3321,7 @@ Switch s6:
   para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
   para s5: [s6 -> s5] (sai pela porta 2)
   para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
   para s9: [s6 -> s9] (sai pela porta 4)
 Switch s7:
   para s1: [s7 -> s4 -> s1] (sai pela porta 3)
@@ -3219,13 +3329,99 @@ Switch s7:
   para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
   para s4: [s7 -> s4] (sai pela porta 3)
   para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s5 -> s6] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
   para s8: [s7 -> s8] (sai pela porta 2)
   para s9: [s7 -> s8 -> s9] (sai pela porta 2)
 Switch s8:
   para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
   para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [s8 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s8 -> s7] (sai pela porta 2)
+  para s9: [s8 -> s9] (sai pela porta 3)
+Switch s9:
+  para s1: [s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 2)
+  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
+  para s5: [s9 -> s6 -> s5] (sai pela porta 3)
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
+  para s8: [s9 -> s8] (sai pela porta 2)
+==========================================================
+EventLinkDelete: enlace s6 (porta 2) -> s5 (porta 3) removido
+==========================================================
+ TABELA DE ROTAS (APÓS EventLinkDelete s6 -> s5) | Modo: ECMP
+==========================================================
+Switch s1:
+  para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
+  para s3: [s1 -> s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s1 -> s4] (sai pela porta 3)
+  para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
+  para s6: [s1 -> s4 -> s7 -> s8 -> s5 -> s6] (sai pela porta 3)
+  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
+  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
+  para s9: [s1 -> s4 -> s7 -> s8 -> s9] (sai pela porta 3)
+Switch s2:
+  para s1: [s2 -> s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 4)
+  para s3: [s2 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s4: [s2 -> s5 -> s8 -> s7 -> s4] (sai pela porta 4)
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [s2 -> s5 -> s6] (sai pela porta 4)
+  para s7: [s2 -> s5 -> s8 -> s7] (sai pela porta 4)
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+  para s9: [s2 -> s5 -> s6 -> s9] (sai pela porta 4)
+Switch s3:
+  para s1: [s3 -> s6 -> s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s3 -> s6 -> s9 -> s8 -> s5 -> s2] (sai pela porta 3)
+  para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
+  para s5: [s3 -> s6 -> s9 -> s8 -> s5] (sai pela porta 3)
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
+  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
+Switch s4:
+  para s1: [s4 -> s1] (sai pela porta 3)
+  para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s4 -> s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 4)
+  para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
+  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
+  para s7: [s4 -> s7] (sai pela porta 4)
+  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
+  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
+Switch s5:
+  para s1: [s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 5)
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [s5 -> s6 -> s3] (sai pela porta 3)
+  para s4: [s5 -> s8 -> s7 -> s4] (sai pela porta 5)
+  para s6: [s5 -> s6] (sai pela porta 3)
+  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
+  para s8: [s5 -> s8] (sai pela porta 5)
+  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
+Switch s6:
+  para s1: [s6 -> s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 4)
+  para s2: [s6 -> s9 -> s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
+  para s5: [s6 -> s9 -> s8 -> s5] (sai pela porta 4)
+  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
+  para s8: [s6 -> s9 -> s8] (sai pela porta 4)
+  para s9: [s6 -> s9] (sai pela porta 4)
+Switch s7:
+  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
+  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
+  para s3: [s7 -> s8 -> s5 -> s6 -> s3] (sai pela porta 2)
+  para s4: [s7 -> s4] (sai pela porta 3)
+  para s5: [s7 -> s8 -> s5] (sai pela porta 2)
+  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
+  para s8: [s7 -> s8] (sai pela porta 2)
+  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
+Switch s8:
+  para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [s8 -> s7 -> s4] (sai pela porta 2)
   para s5: [s8 -> s5] (sai pela porta 4)
   para s6: [s8 -> s5 -> s6] (sai pela porta 4)
@@ -3244,92 +3440,6 @@ Switch s9:
 EventLinkDelete: enlace s5 (porta 3) -> s6 (porta 2) removido
 ==========================================================
  TABELA DE ROTAS (APÓS EventLinkDelete s5 -> s6) | Modo: ECMP
-==========================================================
-Switch s1:
-  para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
-  para s3: [s1 -> s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s1 -> s4] (sai pela porta 3)
-  para s5: [s1 -> s4 -> s7 -> s8 -> s5] (sai pela porta 3)
-  para s6: [s1 -> s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 3)
-  para s7: [s1 -> s4 -> s7] (sai pela porta 3)
-  para s8: [s1 -> s4 -> s7 -> s8] (sai pela porta 3)
-  para s9: [s1 -> s4 -> s7 -> s8 -> s9] (sai pela porta 3)
-Switch s2:
-  para s1: [s2 -> s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 4)
-  para s3: [s2 -> s5 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
-  para s4: [s2 -> s5 -> s8 -> s7 -> s4] (sai pela porta 4)
-  para s5: [s2 -> s5] (sai pela porta 4)
-  para s6: [s2 -> s5 -> s8 -> s9 -> s6] (sai pela porta 4)
-  para s7: [s2 -> s5 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
-  para s9: [s2 -> s5 -> s8 -> s9] (sai pela porta 4)
-Switch s3:
-  para s1: [s3 -> s6 -> s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s3 -> s6 -> s5 -> s2] (sai pela porta 3)
-  para s4: [s3 -> s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 3)
-  para s5: [s3 -> s6 -> s5] (sai pela porta 3)
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [s3 -> s6 -> s9 -> s8 -> s7] (sai pela porta 3)
-  para s8: [s3 -> s6 -> s9 -> s8] (sai pela porta 3)
-  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
-Switch s4:
-  para s1: [s4 -> s1] (sai pela porta 3)
-  para s2: [s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s4 -> s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 4)
-  para s5: [s4 -> s7 -> s8 -> s5] (sai pela porta 4)
-  para s6: [s4 -> s7 -> s8 -> s9 -> s6] (sai pela porta 4)
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [s4 -> s7 -> s8] (sai pela porta 4)
-  para s9: [s4 -> s7 -> s8 -> s9] (sai pela porta 4)
-Switch s5:
-  para s1: [s5 -> s8 -> s7 -> s4 -> s1] (sai pela porta 5)
-  para s2: [s5 -> s2] (sai pela porta 4)
-  para s3: [s5 -> s8 -> s9 -> s6 -> s3] (sai pela porta 5)
-  para s4: [s5 -> s8 -> s7 -> s4] (sai pela porta 5)
-  para s6: [s5 -> s8 -> s9 -> s6] (sai pela porta 5)
-  para s7: [s5 -> s8 -> s7] (sai pela porta 5)
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [s5 -> s8 -> s9] (sai pela porta 5)
-Switch s6:
-  para s1: [s6 -> s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 4)
-  para s2: [s6 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [s6 -> s9 -> s8 -> s7 -> s4] (sai pela porta 4)
-  para s5: [s6 -> s5] (sai pela porta 2)
-  para s7: [s6 -> s9 -> s8 -> s7] (sai pela porta 4)
-  para s8: [s6 -> s5 -> s8] (sai pela porta 2)
-  para s9: [s6 -> s9] (sai pela porta 4)
-Switch s7:
-  para s1: [s7 -> s4 -> s1] (sai pela porta 3)
-  para s2: [s7 -> s8 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s7 -> s8 -> s9 -> s6 -> s3] (sai pela porta 2)
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [s7 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s7 -> s8 -> s9 -> s6] (sai pela porta 2)
-  para s8: [s7 -> s8] (sai pela porta 2)
-  para s9: [s7 -> s8 -> s9] (sai pela porta 2)
-Switch s8:
-  para s1: [s8 -> s7 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
-  para s3: [s8 -> s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [s8 -> s9 -> s6] (sai pela porta 3)
-  para s7: [s8 -> s7] (sai pela porta 2)
-  para s9: [s8 -> s9] (sai pela porta 3)
-Switch s9:
-  para s1: [s9 -> s8 -> s7 -> s4 -> s1] (sai pela porta 2)
-  para s2: [s9 -> s8 -> s5 -> s2] (sai pela porta 2)
-  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [s9 -> s8 -> s7 -> s4] (sai pela porta 2)
-  para s5: [s9 -> s8 -> s5] (sai pela porta 2)
-  para s6: [s9 -> s6] (sai pela porta 3)
-  para s7: [s9 -> s8 -> s7] (sai pela porta 2)
-  para s8: [s9 -> s8] (sai pela porta 2)
-==========================================================
-EventLinkDelete: enlace s6 (porta 2) -> s5 (porta 3) removido
-==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s6 -> s5) | Modo: ECMP
 ==========================================================
 Switch s1:
   para s2: [s1 -> s4 -> s7 -> s8 -> s5 -> s2] (sai pela porta 3)
@@ -4168,9 +4278,9 @@ Switch s9:
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
 ==========================================================
-EventLinkDelete: enlace s5 (porta 4) -> s2 (porta 4) removido
+EventLinkDelete: enlace s7 (porta 3) -> s4 (porta 4) removido
 ==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s5 -> s2) | Modo: ECMP
+ TABELA DE ROTAS (APÓS EventLinkDelete s7 -> s4) | Modo: ECMP
 ==========================================================
 Caminho não encontrado entre s1 e s2
 Caminho não encontrado entre s1 e s3
@@ -4236,7 +4346,6 @@ Switch s4:
   para s8: [SEM ROTA]
   para s9: [SEM ROTA]
 Caminho não encontrado entre s5 e s1
-Caminho não encontrado entre s5 e s2
 Caminho não encontrado entre s5 e s3
 Caminho não encontrado entre s5 e s4
 Caminho não encontrado entre s5 e s6
@@ -4244,7 +4353,7 @@ Caminho não encontrado entre s5 e s7
 Caminho não encontrado entre s5 e s9
 Switch s5:
   para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
+  para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s6: [SEM ROTA]
@@ -4269,6 +4378,7 @@ Switch s6:
 Caminho não encontrado entre s7 e s1
 Caminho não encontrado entre s7 e s2
 Caminho não encontrado entre s7 e s3
+Caminho não encontrado entre s7 e s4
 Caminho não encontrado entre s7 e s5
 Caminho não encontrado entre s7 e s6
 Caminho não encontrado entre s7 e s8
@@ -4277,13 +4387,12 @@ Switch s7:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
   para s3: [SEM ROTA]
-  para s4: [s7 -> s4] (sai pela porta 3)
+  para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s6: [SEM ROTA]
   para s8: [SEM ROTA]
   para s9: [SEM ROTA]
 Caminho não encontrado entre s8 e s1
-Caminho não encontrado entre s8 e s2
 Caminho não encontrado entre s8 e s3
 Caminho não encontrado entre s8 e s4
 Caminho não encontrado entre s8 e s6
@@ -4291,7 +4400,153 @@ Caminho não encontrado entre s8 e s7
 Caminho não encontrado entre s8 e s9
 Switch s8:
   para s1: [SEM ROTA]
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [s8 -> s5] (sai pela porta 4)
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s9 e s1
+Caminho não encontrado entre s9 e s2
+Caminho não encontrado entre s9 e s4
+Caminho não encontrado entre s9 e s5
+Caminho não encontrado entre s9 e s7
+Caminho não encontrado entre s9 e s8
+Switch s9:
+  para s1: [SEM ROTA]
   para s2: [SEM ROTA]
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+==========================================================
+EventLinkDelete: enlace s4 (porta 4) -> s7 (porta 3) removido
+==========================================================
+ TABELA DE ROTAS (APÓS EventLinkDelete s4 -> s7) | Modo: ECMP
+==========================================================
+Caminho não encontrado entre s1 e s2
+Caminho não encontrado entre s1 e s3
+Caminho não encontrado entre s1 e s4
+Caminho não encontrado entre s1 e s5
+Caminho não encontrado entre s1 e s6
+Caminho não encontrado entre s1 e s7
+Caminho não encontrado entre s1 e s8
+Caminho não encontrado entre s1 e s9
+Switch s1:
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s2 e s1
+Caminho não encontrado entre s2 e s3
+Caminho não encontrado entre s2 e s4
+Caminho não encontrado entre s2 e s6
+Caminho não encontrado entre s2 e s7
+Caminho não encontrado entre s2 e s9
+Switch s2:
+  para s1: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [s2 -> s5] (sai pela porta 4)
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [s2 -> s5 -> s8] (sai pela porta 4)
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s3 e s1
+Caminho não encontrado entre s3 e s2
+Caminho não encontrado entre s3 e s4
+Caminho não encontrado entre s3 e s5
+Caminho não encontrado entre s3 e s7
+Caminho não encontrado entre s3 e s8
+Switch s3:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
+Caminho não encontrado entre s4 e s1
+Caminho não encontrado entre s4 e s2
+Caminho não encontrado entre s4 e s3
+Caminho não encontrado entre s4 e s5
+Caminho não encontrado entre s4 e s6
+Caminho não encontrado entre s4 e s7
+Caminho não encontrado entre s4 e s8
+Caminho não encontrado entre s4 e s9
+Switch s4:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s5 e s1
+Caminho não encontrado entre s5 e s3
+Caminho não encontrado entre s5 e s4
+Caminho não encontrado entre s5 e s6
+Caminho não encontrado entre s5 e s7
+Caminho não encontrado entre s5 e s9
+Switch s5:
+  para s1: [SEM ROTA]
+  para s2: [s5 -> s2] (sai pela porta 4)
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [s5 -> s8] (sai pela porta 5)
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s6 e s1
+Caminho não encontrado entre s6 e s2
+Caminho não encontrado entre s6 e s4
+Caminho não encontrado entre s6 e s5
+Caminho não encontrado entre s6 e s7
+Caminho não encontrado entre s6 e s8
+Switch s6:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [s6 -> s9] (sai pela porta 4)
+Caminho não encontrado entre s7 e s1
+Caminho não encontrado entre s7 e s2
+Caminho não encontrado entre s7 e s3
+Caminho não encontrado entre s7 e s4
+Caminho não encontrado entre s7 e s5
+Caminho não encontrado entre s7 e s6
+Caminho não encontrado entre s7 e s8
+Caminho não encontrado entre s7 e s9
+Switch s7:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s8 e s1
+Caminho não encontrado entre s8 e s3
+Caminho não encontrado entre s8 e s4
+Caminho não encontrado entre s8 e s6
+Caminho não encontrado entre s8 e s7
+Caminho não encontrado entre s8 e s9
+Switch s8:
+  para s1: [SEM ROTA]
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [s8 -> s5] (sai pela porta 4)
@@ -4372,154 +4627,6 @@ Caminho não encontrado entre s4 e s2
 Caminho não encontrado entre s4 e s3
 Caminho não encontrado entre s4 e s5
 Caminho não encontrado entre s4 e s6
-Caminho não encontrado entre s4 e s8
-Caminho não encontrado entre s4 e s9
-Switch s4:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [s4 -> s7] (sai pela porta 4)
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s5 e s1
-Caminho não encontrado entre s5 e s2
-Caminho não encontrado entre s5 e s3
-Caminho não encontrado entre s5 e s4
-Caminho não encontrado entre s5 e s6
-Caminho não encontrado entre s5 e s7
-Caminho não encontrado entre s5 e s9
-Switch s5:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s6 e s1
-Caminho não encontrado entre s6 e s2
-Caminho não encontrado entre s6 e s4
-Caminho não encontrado entre s6 e s5
-Caminho não encontrado entre s6 e s7
-Caminho não encontrado entre s6 e s8
-Switch s6:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [s6 -> s3] (sai pela porta 3)
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [s6 -> s9] (sai pela porta 4)
-Caminho não encontrado entre s7 e s1
-Caminho não encontrado entre s7 e s2
-Caminho não encontrado entre s7 e s3
-Caminho não encontrado entre s7 e s5
-Caminho não encontrado entre s7 e s6
-Caminho não encontrado entre s7 e s8
-Caminho não encontrado entre s7 e s9
-Switch s7:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [s7 -> s4] (sai pela porta 3)
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s8 e s1
-Caminho não encontrado entre s8 e s2
-Caminho não encontrado entre s8 e s3
-Caminho não encontrado entre s8 e s4
-Caminho não encontrado entre s8 e s6
-Caminho não encontrado entre s8 e s7
-Caminho não encontrado entre s8 e s9
-Switch s8:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s9 e s1
-Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s4
-Caminho não encontrado entre s9 e s5
-Caminho não encontrado entre s9 e s7
-Caminho não encontrado entre s9 e s8
-Switch s9:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [s9 -> s6] (sai pela porta 3)
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-==========================================================
-EventLinkDelete: enlace s4 (porta 4) -> s7 (porta 3) removido
-==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s4 -> s7) | Modo: ECMP
-==========================================================
-Caminho não encontrado entre s1 e s2
-Caminho não encontrado entre s1 e s3
-Caminho não encontrado entre s1 e s4
-Caminho não encontrado entre s1 e s5
-Caminho não encontrado entre s1 e s6
-Caminho não encontrado entre s1 e s7
-Caminho não encontrado entre s1 e s8
-Caminho não encontrado entre s1 e s9
-Switch s1:
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s2 e s1
-Caminho não encontrado entre s2 e s3
-Caminho não encontrado entre s2 e s4
-Caminho não encontrado entre s2 e s5
-Caminho não encontrado entre s2 e s6
-Caminho não encontrado entre s2 e s7
-Caminho não encontrado entre s2 e s8
-Caminho não encontrado entre s2 e s9
-Switch s2:
-  para s1: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s3 e s1
-Caminho não encontrado entre s3 e s2
-Caminho não encontrado entre s3 e s4
-Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s7
-Caminho não encontrado entre s3 e s8
-Switch s3:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
-Caminho não encontrado entre s4 e s1
-Caminho não encontrado entre s4 e s2
-Caminho não encontrado entre s4 e s3
-Caminho não encontrado entre s4 e s5
-Caminho não encontrado entre s4 e s6
 Caminho não encontrado entre s4 e s7
 Caminho não encontrado entre s4 e s8
 Caminho não encontrado entre s4 e s9
@@ -4533,7 +4640,6 @@ Switch s4:
   para s8: [SEM ROTA]
   para s9: [SEM ROTA]
 Caminho não encontrado entre s5 e s1
-Caminho não encontrado entre s5 e s2
 Caminho não encontrado entre s5 e s3
 Caminho não encontrado entre s5 e s4
 Caminho não encontrado entre s5 e s6
@@ -4541,7 +4647,7 @@ Caminho não encontrado entre s5 e s7
 Caminho não encontrado entre s5 e s9
 Switch s5:
   para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
+  para s2: [s5 -> s2] (sai pela porta 4)
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s6: [SEM ROTA]
@@ -4566,6 +4672,7 @@ Switch s6:
 Caminho não encontrado entre s7 e s1
 Caminho não encontrado entre s7 e s2
 Caminho não encontrado entre s7 e s3
+Caminho não encontrado entre s7 e s4
 Caminho não encontrado entre s7 e s5
 Caminho não encontrado entre s7 e s6
 Caminho não encontrado entre s7 e s8
@@ -4574,13 +4681,12 @@ Switch s7:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
   para s3: [SEM ROTA]
-  para s4: [s7 -> s4] (sai pela porta 3)
+  para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s6: [SEM ROTA]
   para s8: [SEM ROTA]
   para s9: [SEM ROTA]
 Caminho não encontrado entre s8 e s1
-Caminho não encontrado entre s8 e s2
 Caminho não encontrado entre s8 e s3
 Caminho não encontrado entre s8 e s4
 Caminho não encontrado entre s8 e s6
@@ -4588,7 +4694,7 @@ Caminho não encontrado entre s8 e s7
 Caminho não encontrado entre s8 e s9
 Switch s8:
   para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
+  para s2: [s8 -> s5 -> s2] (sai pela porta 4)
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [s8 -> s5] (sai pela porta 4)
@@ -4611,9 +4717,9 @@ Switch s9:
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
 ==========================================================
-EventLinkDelete: enlace s7 (porta 3) -> s4 (porta 4) removido
+EventLinkDelete: enlace s5 (porta 4) -> s2 (porta 4) removido
 ==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s7 -> s4) | Modo: ECMP
+ TABELA DE ROTAS (APÓS EventLinkDelete s5 -> s2) | Modo: ECMP
 ==========================================================
 Caminho não encontrado entre s1 e s2
 Caminho não encontrado entre s1 e s3
@@ -4755,312 +4861,6 @@ Switch s9:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
   para s3: [s9 -> s6 -> s3] (sai pela porta 3)
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [s9 -> s6] (sai pela porta 3)
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-==========================================================
-EventLinkDelete: enlace s6 (porta 3) -> s3 (porta 3) removido
-==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s6 -> s3) | Modo: ECMP
-==========================================================
-Caminho não encontrado entre s1 e s2
-Caminho não encontrado entre s1 e s3
-Caminho não encontrado entre s1 e s4
-Caminho não encontrado entre s1 e s5
-Caminho não encontrado entre s1 e s6
-Caminho não encontrado entre s1 e s7
-Caminho não encontrado entre s1 e s8
-Caminho não encontrado entre s1 e s9
-Switch s1:
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s2 e s1
-Caminho não encontrado entre s2 e s3
-Caminho não encontrado entre s2 e s4
-Caminho não encontrado entre s2 e s5
-Caminho não encontrado entre s2 e s6
-Caminho não encontrado entre s2 e s7
-Caminho não encontrado entre s2 e s8
-Caminho não encontrado entre s2 e s9
-Switch s2:
-  para s1: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s3 e s1
-Caminho não encontrado entre s3 e s2
-Caminho não encontrado entre s3 e s4
-Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s7
-Caminho não encontrado entre s3 e s8
-Switch s3:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [s3 -> s6] (sai pela porta 3)
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
-Caminho não encontrado entre s4 e s1
-Caminho não encontrado entre s4 e s2
-Caminho não encontrado entre s4 e s3
-Caminho não encontrado entre s4 e s5
-Caminho não encontrado entre s4 e s6
-Caminho não encontrado entre s4 e s7
-Caminho não encontrado entre s4 e s8
-Caminho não encontrado entre s4 e s9
-Switch s4:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s5 e s1
-Caminho não encontrado entre s5 e s2
-Caminho não encontrado entre s5 e s3
-Caminho não encontrado entre s5 e s4
-Caminho não encontrado entre s5 e s6
-Caminho não encontrado entre s5 e s7
-Caminho não encontrado entre s5 e s9
-Switch s5:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s6 e s1
-Caminho não encontrado entre s6 e s2
-Caminho não encontrado entre s6 e s3
-Caminho não encontrado entre s6 e s4
-Caminho não encontrado entre s6 e s5
-Caminho não encontrado entre s6 e s7
-Caminho não encontrado entre s6 e s8
-Switch s6:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [s6 -> s9] (sai pela porta 4)
-Caminho não encontrado entre s7 e s1
-Caminho não encontrado entre s7 e s2
-Caminho não encontrado entre s7 e s3
-Caminho não encontrado entre s7 e s4
-Caminho não encontrado entre s7 e s5
-Caminho não encontrado entre s7 e s6
-Caminho não encontrado entre s7 e s8
-Caminho não encontrado entre s7 e s9
-Switch s7:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s8 e s1
-Caminho não encontrado entre s8 e s2
-Caminho não encontrado entre s8 e s3
-Caminho não encontrado entre s8 e s4
-Caminho não encontrado entre s8 e s6
-Caminho não encontrado entre s8 e s7
-Caminho não encontrado entre s8 e s9
-Switch s8:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s9 e s1
-Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s3
-Caminho não encontrado entre s9 e s4
-Caminho não encontrado entre s9 e s5
-Caminho não encontrado entre s9 e s7
-Caminho não encontrado entre s9 e s8
-Switch s9:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [s9 -> s6] (sai pela porta 3)
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-==========================================================
-EventLinkDelete: enlace s3 (porta 3) -> s6 (porta 3) removido
-==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s3 -> s6) | Modo: ECMP
-==========================================================
-Caminho não encontrado entre s1 e s2
-Caminho não encontrado entre s1 e s3
-Caminho não encontrado entre s1 e s4
-Caminho não encontrado entre s1 e s5
-Caminho não encontrado entre s1 e s6
-Caminho não encontrado entre s1 e s7
-Caminho não encontrado entre s1 e s8
-Caminho não encontrado entre s1 e s9
-Switch s1:
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s2 e s1
-Caminho não encontrado entre s2 e s3
-Caminho não encontrado entre s2 e s4
-Caminho não encontrado entre s2 e s5
-Caminho não encontrado entre s2 e s6
-Caminho não encontrado entre s2 e s7
-Caminho não encontrado entre s2 e s8
-Caminho não encontrado entre s2 e s9
-Switch s2:
-  para s1: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s3 e s1
-Caminho não encontrado entre s3 e s2
-Caminho não encontrado entre s3 e s4
-Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s6
-Caminho não encontrado entre s3 e s7
-Caminho não encontrado entre s3 e s8
-Caminho não encontrado entre s3 e s9
-Switch s3:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s4 e s1
-Caminho não encontrado entre s4 e s2
-Caminho não encontrado entre s4 e s3
-Caminho não encontrado entre s4 e s5
-Caminho não encontrado entre s4 e s6
-Caminho não encontrado entre s4 e s7
-Caminho não encontrado entre s4 e s8
-Caminho não encontrado entre s4 e s9
-Switch s4:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s5 e s1
-Caminho não encontrado entre s5 e s2
-Caminho não encontrado entre s5 e s3
-Caminho não encontrado entre s5 e s4
-Caminho não encontrado entre s5 e s6
-Caminho não encontrado entre s5 e s7
-Caminho não encontrado entre s5 e s9
-Switch s5:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [s5 -> s8] (sai pela porta 5)
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s6 e s1
-Caminho não encontrado entre s6 e s2
-Caminho não encontrado entre s6 e s3
-Caminho não encontrado entre s6 e s4
-Caminho não encontrado entre s6 e s5
-Caminho não encontrado entre s6 e s7
-Caminho não encontrado entre s6 e s8
-Switch s6:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [s6 -> s9] (sai pela porta 4)
-Caminho não encontrado entre s7 e s1
-Caminho não encontrado entre s7 e s2
-Caminho não encontrado entre s7 e s3
-Caminho não encontrado entre s7 e s4
-Caminho não encontrado entre s7 e s5
-Caminho não encontrado entre s7 e s6
-Caminho não encontrado entre s7 e s8
-Caminho não encontrado entre s7 e s9
-Switch s7:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
-  para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s8 e s1
-Caminho não encontrado entre s8 e s2
-Caminho não encontrado entre s8 e s3
-Caminho não encontrado entre s8 e s4
-Caminho não encontrado entre s8 e s6
-Caminho não encontrado entre s8 e s7
-Caminho não encontrado entre s8 e s9
-Switch s8:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
-  para s4: [SEM ROTA]
-  para s5: [s8 -> s5] (sai pela porta 4)
-  para s6: [SEM ROTA]
-  para s7: [SEM ROTA]
-  para s9: [SEM ROTA]
-Caminho não encontrado entre s9 e s1
-Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s3
-Caminho não encontrado entre s9 e s4
-Caminho não encontrado entre s9 e s5
-Caminho não encontrado entre s9 e s7
-Caminho não encontrado entre s9 e s8
-Switch s9:
-  para s1: [SEM ROTA]
-  para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s6: [s9 -> s6] (sai pela porta 3)
@@ -5109,19 +4909,17 @@ Caminho não encontrado entre s3 e s1
 Caminho não encontrado entre s3 e s2
 Caminho não encontrado entre s3 e s4
 Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s6
 Caminho não encontrado entre s3 e s7
 Caminho não encontrado entre s3 e s8
-Caminho não encontrado entre s3 e s9
 Switch s3:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Caminho não encontrado entre s4 e s1
 Caminho não encontrado entre s4 e s2
 Caminho não encontrado entre s4 e s3
@@ -5157,7 +4955,6 @@ Switch s5:
   para s9: [SEM ROTA]
 Caminho não encontrado entre s6 e s1
 Caminho não encontrado entre s6 e s2
-Caminho não encontrado entre s6 e s3
 Caminho não encontrado entre s6 e s4
 Caminho não encontrado entre s6 e s5
 Caminho não encontrado entre s6 e s7
@@ -5165,7 +4962,7 @@ Caminho não encontrado entre s6 e s8
 Switch s6:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
+  para s3: [s6 -> s3] (sai pela porta 3)
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s7: [SEM ROTA]
@@ -5207,7 +5004,6 @@ Switch s8:
   para s9: [SEM ROTA]
 Caminho não encontrado entre s9 e s1
 Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s3
 Caminho não encontrado entre s9 e s4
 Caminho não encontrado entre s9 e s5
 Caminho não encontrado entre s9 e s7
@@ -5215,7 +5011,7 @@ Caminho não encontrado entre s9 e s8
 Switch s9:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s6: [s9 -> s6] (sai pela porta 3)
@@ -5264,19 +5060,17 @@ Caminho não encontrado entre s3 e s1
 Caminho não encontrado entre s3 e s2
 Caminho não encontrado entre s3 e s4
 Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s6
 Caminho não encontrado entre s3 e s7
 Caminho não encontrado entre s3 e s8
-Caminho não encontrado entre s3 e s9
 Switch s3:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
-  para s6: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
-  para s9: [SEM ROTA]
+  para s9: [s3 -> s6 -> s9] (sai pela porta 3)
 Caminho não encontrado entre s4 e s1
 Caminho não encontrado entre s4 e s2
 Caminho não encontrado entre s4 e s3
@@ -5313,7 +5107,6 @@ Switch s5:
   para s9: [SEM ROTA]
 Caminho não encontrado entre s6 e s1
 Caminho não encontrado entre s6 e s2
-Caminho não encontrado entre s6 e s3
 Caminho não encontrado entre s6 e s4
 Caminho não encontrado entre s6 e s5
 Caminho não encontrado entre s6 e s7
@@ -5321,7 +5114,7 @@ Caminho não encontrado entre s6 e s8
 Switch s6:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
+  para s3: [s6 -> s3] (sai pela porta 3)
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s7: [SEM ROTA]
@@ -5363,7 +5156,6 @@ Switch s8:
   para s9: [SEM ROTA]
 Caminho não encontrado entre s9 e s1
 Caminho não encontrado entre s9 e s2
-Caminho não encontrado entre s9 e s3
 Caminho não encontrado entre s9 e s4
 Caminho não encontrado entre s9 e s5
 Caminho não encontrado entre s9 e s7
@@ -5371,7 +5163,7 @@ Caminho não encontrado entre s9 e s8
 Switch s9:
   para s1: [SEM ROTA]
   para s2: [SEM ROTA]
-  para s3: [SEM ROTA]
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
   para s6: [s9 -> s6] (sai pela porta 3)
@@ -5420,7 +5212,6 @@ Caminho não encontrado entre s3 e s1
 Caminho não encontrado entre s3 e s2
 Caminho não encontrado entre s3 e s4
 Caminho não encontrado entre s3 e s5
-Caminho não encontrado entre s3 e s6
 Caminho não encontrado entre s3 e s7
 Caminho não encontrado entre s3 e s8
 Caminho não encontrado entre s3 e s9
@@ -5429,7 +5220,317 @@ Switch s3:
   para s2: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s4 e s1
+Caminho não encontrado entre s4 e s2
+Caminho não encontrado entre s4 e s3
+Caminho não encontrado entre s4 e s5
+Caminho não encontrado entre s4 e s6
+Caminho não encontrado entre s4 e s7
+Caminho não encontrado entre s4 e s8
+Caminho não encontrado entre s4 e s9
+Switch s4:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s5: [SEM ROTA]
   para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s5 e s1
+Caminho não encontrado entre s5 e s2
+Caminho não encontrado entre s5 e s3
+Caminho não encontrado entre s5 e s4
+Caminho não encontrado entre s5 e s6
+Caminho não encontrado entre s5 e s7
+Caminho não encontrado entre s5 e s8
+Caminho não encontrado entre s5 e s9
+Switch s5:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s6 e s1
+Caminho não encontrado entre s6 e s2
+Caminho não encontrado entre s6 e s4
+Caminho não encontrado entre s6 e s5
+Caminho não encontrado entre s6 e s7
+Caminho não encontrado entre s6 e s8
+Caminho não encontrado entre s6 e s9
+Switch s6:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s7 e s1
+Caminho não encontrado entre s7 e s2
+Caminho não encontrado entre s7 e s3
+Caminho não encontrado entre s7 e s4
+Caminho não encontrado entre s7 e s5
+Caminho não encontrado entre s7 e s6
+Caminho não encontrado entre s7 e s8
+Caminho não encontrado entre s7 e s9
+Switch s7:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s8 e s1
+Caminho não encontrado entre s8 e s2
+Caminho não encontrado entre s8 e s3
+Caminho não encontrado entre s8 e s4
+Caminho não encontrado entre s8 e s5
+Caminho não encontrado entre s8 e s6
+Caminho não encontrado entre s8 e s7
+Caminho não encontrado entre s8 e s9
+Switch s8:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s9 e s1
+Caminho não encontrado entre s9 e s2
+Caminho não encontrado entre s9 e s4
+Caminho não encontrado entre s9 e s5
+Caminho não encontrado entre s9 e s7
+Caminho não encontrado entre s9 e s8
+Switch s9:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [s9 -> s6 -> s3] (sai pela porta 3)
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [s9 -> s6] (sai pela porta 3)
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+==========================================================
+EventLinkDelete: enlace s9 (porta 3) -> s6 (porta 4) removido
+==========================================================
+ TABELA DE ROTAS (APÓS EventLinkDelete s9 -> s6) | Modo: ECMP
+==========================================================
+Caminho não encontrado entre s1 e s2
+Caminho não encontrado entre s1 e s3
+Caminho não encontrado entre s1 e s4
+Caminho não encontrado entre s1 e s5
+Caminho não encontrado entre s1 e s6
+Caminho não encontrado entre s1 e s7
+Caminho não encontrado entre s1 e s8
+Caminho não encontrado entre s1 e s9
+Switch s1:
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s2 e s1
+Caminho não encontrado entre s2 e s3
+Caminho não encontrado entre s2 e s4
+Caminho não encontrado entre s2 e s5
+Caminho não encontrado entre s2 e s6
+Caminho não encontrado entre s2 e s7
+Caminho não encontrado entre s2 e s8
+Caminho não encontrado entre s2 e s9
+Switch s2:
+  para s1: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s3 e s1
+Caminho não encontrado entre s3 e s2
+Caminho não encontrado entre s3 e s4
+Caminho não encontrado entre s3 e s5
+Caminho não encontrado entre s3 e s7
+Caminho não encontrado entre s3 e s8
+Caminho não encontrado entre s3 e s9
+Switch s3:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s4 e s1
+Caminho não encontrado entre s4 e s2
+Caminho não encontrado entre s4 e s3
+Caminho não encontrado entre s4 e s5
+Caminho não encontrado entre s4 e s6
+Caminho não encontrado entre s4 e s7
+Caminho não encontrado entre s4 e s8
+Caminho não encontrado entre s4 e s9
+Switch s4:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s5 e s1
+Caminho não encontrado entre s5 e s2
+Caminho não encontrado entre s5 e s3
+Caminho não encontrado entre s5 e s4
+Caminho não encontrado entre s5 e s6
+Caminho não encontrado entre s5 e s7
+Caminho não encontrado entre s5 e s8
+Caminho não encontrado entre s5 e s9
+Switch s5:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s6 e s1
+Caminho não encontrado entre s6 e s2
+Caminho não encontrado entre s6 e s4
+Caminho não encontrado entre s6 e s5
+Caminho não encontrado entre s6 e s7
+Caminho não encontrado entre s6 e s8
+Caminho não encontrado entre s6 e s9
+Switch s6:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [s6 -> s3] (sai pela porta 3)
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s7 e s1
+Caminho não encontrado entre s7 e s2
+Caminho não encontrado entre s7 e s3
+Caminho não encontrado entre s7 e s4
+Caminho não encontrado entre s7 e s5
+Caminho não encontrado entre s7 e s6
+Caminho não encontrado entre s7 e s8
+Caminho não encontrado entre s7 e s9
+Switch s7:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s8 e s1
+Caminho não encontrado entre s8 e s2
+Caminho não encontrado entre s8 e s3
+Caminho não encontrado entre s8 e s4
+Caminho não encontrado entre s8 e s5
+Caminho não encontrado entre s8 e s6
+Caminho não encontrado entre s8 e s7
+Caminho não encontrado entre s8 e s9
+Switch s8:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s9 e s1
+Caminho não encontrado entre s9 e s2
+Caminho não encontrado entre s9 e s3
+Caminho não encontrado entre s9 e s4
+Caminho não encontrado entre s9 e s5
+Caminho não encontrado entre s9 e s6
+Caminho não encontrado entre s9 e s7
+Caminho não encontrado entre s9 e s8
+Switch s9:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+==========================================================
+EventLinkDelete: enlace s6 (porta 3) -> s3 (porta 3) removido
+==========================================================
+ TABELA DE ROTAS (APÓS EventLinkDelete s6 -> s3) | Modo: ECMP
+==========================================================
+Caminho não encontrado entre s1 e s2
+Caminho não encontrado entre s1 e s3
+Caminho não encontrado entre s1 e s4
+Caminho não encontrado entre s1 e s5
+Caminho não encontrado entre s1 e s6
+Caminho não encontrado entre s1 e s7
+Caminho não encontrado entre s1 e s8
+Caminho não encontrado entre s1 e s9
+Switch s1:
+  para s2: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s2 e s1
+Caminho não encontrado entre s2 e s3
+Caminho não encontrado entre s2 e s4
+Caminho não encontrado entre s2 e s5
+Caminho não encontrado entre s2 e s6
+Caminho não encontrado entre s2 e s7
+Caminho não encontrado entre s2 e s8
+Caminho não encontrado entre s2 e s9
+Switch s2:
+  para s1: [SEM ROTA]
+  para s3: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [SEM ROTA]
+  para s7: [SEM ROTA]
+  para s8: [SEM ROTA]
+  para s9: [SEM ROTA]
+Caminho não encontrado entre s3 e s1
+Caminho não encontrado entre s3 e s2
+Caminho não encontrado entre s3 e s4
+Caminho não encontrado entre s3 e s5
+Caminho não encontrado entre s3 e s7
+Caminho não encontrado entre s3 e s8
+Caminho não encontrado entre s3 e s9
+Switch s3:
+  para s1: [SEM ROTA]
+  para s2: [SEM ROTA]
+  para s4: [SEM ROTA]
+  para s5: [SEM ROTA]
+  para s6: [s3 -> s6] (sai pela porta 3)
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
   para s9: [SEM ROTA]
@@ -5523,6 +5624,7 @@ Caminho não encontrado entre s9 e s2
 Caminho não encontrado entre s9 e s3
 Caminho não encontrado entre s9 e s4
 Caminho não encontrado entre s9 e s5
+Caminho não encontrado entre s9 e s6
 Caminho não encontrado entre s9 e s7
 Caminho não encontrado entre s9 e s8
 Switch s9:
@@ -5531,13 +5633,13 @@ Switch s9:
   para s3: [SEM ROTA]
   para s4: [SEM ROTA]
   para s5: [SEM ROTA]
-  para s6: [s9 -> s6] (sai pela porta 3)
+  para s6: [SEM ROTA]
   para s7: [SEM ROTA]
   para s8: [SEM ROTA]
 ==========================================================
-EventLinkDelete: enlace s9 (porta 3) -> s6 (porta 4) removido
+EventLinkDelete: enlace s3 (porta 3) -> s6 (porta 3) removido
 ==========================================================
- TABELA DE ROTAS (APÓS EventLinkDelete s9 -> s6) | Modo: ECMP
+ TABELA DE ROTAS (APÓS EventLinkDelete s3 -> s6) | Modo: ECMP
 ==========================================================
 Caminho não encontrado entre s1 e s2
 Caminho não encontrado entre s1 e s3
