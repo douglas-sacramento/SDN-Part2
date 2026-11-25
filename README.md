@@ -3,7 +3,7 @@
 🎓 Mestrado em Computação Aplicada<br>
 🌐 Disciplina Redes de Computadores<br>
 👩‍🏫 Prof. Cristina Dominici<br>
-👨‍💻 Alunos: Douglas Sarmento e Márcio Castelo Branco
+👨‍💻 Alunos: Douglas Sacramento e Márcio Castelo Branco
 
 
 Este repositório contém a implementação e a automação de experimentos em **Redes Definidas por Software (SDN)** utilizando **Mininet**, **Open vSwitch (OpenFlow 1.3)** e o controlador **Ryu**. O objetivo é avaliar o desempenho de encaminhamento (**Flow Completion Time — FCT** e **distribuição de vazão por switch**) comparando os algoritmos **OSPF** e **ECMP** nas topologias **Torus** e **Spine-Leaf**, tanto em operação normal quanto sob falha dinâmica de enlace.
